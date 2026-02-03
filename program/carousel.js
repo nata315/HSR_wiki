@@ -1,3 +1,8 @@
+//добавить метод хранения комментариев ? общий для всех персов
+//сократить первосов
+//метод для открытия карточки
+
+
 class PhotoCarousel {
     constructor() {
         this.carouselTrack = document.querySelector('.carousel-track');
