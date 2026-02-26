@@ -1,0 +1,104 @@
+[
+    {
+        "id": "Ballu_card",
+        "name": "Байлу",
+        "description": "",
+        "image": "https:\/\/static.wikia.nocookie.net\/houkai-star-rail\/images\/e\/e9\/Character_Bailu_Splash_Art.png\/revision\/latest\/scale-to-width-down\/1000?cb=20230210120736"
+    },
+    {
+        "id": "Bronya_card",
+        "name": "Броня",
+        "description": "",
+        "image": "https:\/\/static.wikia.nocookie.net\/houkai-star-rail\/images\/7\/7c\/Character_Bronya_Splash_Art.png\/revision\/latest\/scale-to-width-down\/1000?cb=20240121130128"
+    },
+    {
+        "id": "Gepard_card",
+        "name": "Гепард",
+        "description": "",
+        "image": "https:\/\/static.wikia.nocookie.net\/houkai-star-rail\/images\/9\/96\/Character_Gepard_Splash_Art.png\/revision\/latest\/scale-to-width-down\/1000?cb=20230216232354"
+    },
+    {
+        "id": "Himeko_card",
+        "name": "Химико",
+        "description": "",
+        "image": "https:\/\/static.wikia.nocookie.net\/houkai-star-rail\/images\/8\/8e\/Character_Himeko_Splash_Art.png\/revision\/latest\/scale-to-width-down\/1000?cb=20230525090036"
+    },
+    {
+        "id": "JingYuan_card",
+        "name": "Цзынь Юань",
+        "description": "",
+        "image": "https:\/\/static.wikia.nocookie.net\/houkai-star-rail\/images\/4\/48\/Character_Jing_Yuan_Splash_Art.png\/revision\/latest\/scale-to-width-down\/1000?cb=20230210115809"
+    },
+    {
+        "id": "Seele_card",
+        "name": "Зеле",
+        "description": "",
+        "image": "https:\/\/static.wikia.nocookie.net\/houkai-star-rail\/images\/5\/58\/Character_Seele_Splash_Art.png\/revision\/latest\/scale-to-width-down\/1000?cb=20240121123334"
+    },
+    {
+        "id": "Welt_card",
+        "name": "Вельт",
+        "description": "",
+        "image": "https:\/\/static.wikia.nocookie.net\/houkai-star-rail\/images\/1\/11\/Character_Welt_Splash_Art.png\/revision\/latest\/scale-to-width-down\/1000?cb=20230525090017"
+    },
+    {
+        "id": "Yanqing_card",
+        "name": "Янь Цинь",
+        "description": "",
+        "image": "https:\/\/static.wikia.nocookie.net\/houkai-star-rail\/images\/6\/6d\/Character_Yanqing_Splash_Art.png\/revision\/latest\/scale-to-width-down\/1000?cb=20230210121516"
+    },
+    {
+        "id": "Luocha_card",
+        "name": "Лоча",
+        "description": "",
+        "image": "https:\/\/static.wikia.nocookie.net\/houkai-star-rail\/images\/a\/a5\/Character_Luocha_Splash_Art.png\/revision\/latest\/scale-to-width-down\/1000?cb=20230628091054"
+    },
+    {
+        "id": "SilverWolf_card",
+        "name": "Серебряный Волк",
+        "description": "",
+        "image": "https:\/\/static.wikia.nocookie.net\/houkai-star-rail\/images\/6\/60\/Character_Silver_Wolf_Splash_Art.png\/revision\/latest?cb=20230216230911"
+    },
+    {
+        "id": "Blade_card",
+        "name": "Блэйд",
+        "description": "",
+        "image": "https:\/\/static.wikia.nocookie.net\/houkai-star-rail\/images\/1\/16\/Character_Blade_Splash_Art.png\/revision\/latest?cb=20230501004859"
+    },
+    {
+        "id": "Kafka_card",
+        "name": "Кафка",
+        "description": "",
+        "image": "https:\/\/static.wikia.nocookie.net\/houkai-star-rail\/images\/9\/95\/Character_Kafka_Splash_Art.png\/revision\/latest?cb=20230809042240"
+    },
+    {
+        "id": "DanHengImbibitorLunae_card",
+        "name": "Дань Хэн Пожиратель луны",
+        "description": "",
+        "image": "https:\/\/static.wikia.nocookie.net\/houkai-star-rail\/images\/2\/2c\/Character_Dan_Heng_•_Imbibitor_Lunae_Splash_Art.png\/revision\/latest?cb=20230818234313"
+    },
+    {
+        "id": "FuXuan_card",
+        "name": "Фу Сюань",
+        "description": "",
+        "image": "https:\/\/static.wikia.nocookie.net\/houkai-star-rail\/images\/3\/3e\/Character_Fu_Xuan_Splash_Art.png\/revision\/latest?cb=20230928224921"
+    },
+    {
+        "id": "Jingliu_card",
+        "name": "Цзинлю",
+        "description": "",
+        "image": "https:\/\/static.wikia.nocookie.net\/houkai-star-rail\/images\/9\/97\/Character_Jingliu_Splash_Art.png\/revision\/latest?cb=20240525000314"
+    },
+    {
+        "id": "Topaz_card",
+        "name": "Топаз",
+        "description": "",
+        "image": "https:\/\/static.wikia.nocookie.net\/houkai-star-rail\/images\/9\/9d\/Character_Topaz_and_Numby_Splash_Art.png\/revision\/latest?cb=20231030040101"
+    },
+    {
+        "id": "Argenti_card",
+        "name": "Аргенти",
+        "description": "",
+        "image": "https:\/\/static.wikia.nocookie.net\/houkai-star-rail\/images\/9\/90\/Character_Argenti_Splash_Art.png\/revision\/latest?cb=20231206232011"
+    }
+]

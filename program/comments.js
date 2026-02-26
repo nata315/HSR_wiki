@@ -5,6 +5,7 @@ pageName=[main,planet,menu];
 let date = new Date();
 //функция для создания интерфейса комментариев
 function comWindow(){
+    //переделать ввод на форму с отправкой 
     let corUs=<div><div id="corUs">
         <div><p>Напишите никнейм : </p><input type="text" id="Name"></input><button id="Send">Отправить</button></div>
         <div><p>Комментарий : </p><input type="text" id="Com"></input></div>
