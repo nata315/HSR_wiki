@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>тест записи данных</title>
+        <style>
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                margin: 0;
+                padding: 0;
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            form {
+                background: white;
+                border-radius: 20px;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+                padding: 40px;
+                width: 100%;
+                max-width: 500px;
+                margin: 20px;
+                box-sizing: border-box;
+                animation: slideIn 0.5s ease-out;
+            }
+            /* Кнопка отправки */
+            .submit-btn {
+                width: auto;
+                min-width: 160px; /* Еще меньше минимальная ширина */
+                padding: 8px 20px; /* Еще меньше отступы */
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                border: none;
+                border-radius: 6px;
+                font-size: 14px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                display: inline-block;
+                margin: 0 auto;
+            }
+        </style>
+    </head>
+    <body>
+        <form id="myForm" action="server/cards_save.php" method="post">
+            <div>
+                <p>Введите id:</p>
+                <input type="text" name="id_card"/>
+            </div>
+            <div>
+                <p>Введите имя персонажа:</p>
+                <input type="text" name="name_card"/>
+            </div>
+            <div>
+                <p>Введите описание:</p>
+                <input type="text" name="description_card"/>
+            </div>
+            <div>
+                <p>Введите ссылку на изображение:</p>
+                <input type="text" name="image_card"/>
+                <p></p>
+            </div>
+            <button type="submit" class="submit-btn">готово</button>
+            <button type="reset" class="submit-btn">очистить поля</button>
+        </form>
+        <script>
+            document.getElementById('myForm').addEventListener('submit', async function(e) {
+                e.preventDefault(); 
+                
+                const formData = new FormData(this);
+                
+                try {
+                    const response = await fetch('server/cards_save.php', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const result = await response.text();
+                    console.log('Успешно отправлено:', result);
+                    // Можно добавить уведомление об успехе
+                    alert('Данные успешно отправлены!');
+                    
+                    // Очистить форму (опционально)
+                    // this.reset();
+                    
+                } catch (error) {
+                    console.error('Ошибка:', error);
+                    alert('Ошибка при отправке');
+                }
+            });
+            </script>
+    </body>
+</html>
