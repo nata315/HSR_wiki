@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Admin-panel</title>
+        <link rel="stylesheet" href="admin_style.css">
+        <script src="admin_script.js" defer></script>
+    </head>
+    <body>
+        <!-- Шапка видна всегда, только после входа появляются ник и кнопка выхода -->
+        <header class="header" id="mainHeader">
+            <div class="header-left-text">
+                <h1>Админ-панель</h1>
+            </div>
+            <div class="header-center-userBadge" id="userBadge" style="display: none;">
+                <svg fill="#000000" width="30" height="30" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 15.503A5.041 5.041 0 1 0 16 5.42a5.041 5.041 0 0 0 0 10.083zm0 2.215c-6.703 0-11 3.699-11 5.5v3.363h22v-3.363c0-2.178-4.068-5.5-11-5.5z"/>
+                </svg>
+                <input type="text" readonly id="adminName">
+            </div>
+            <button class="btn-exit" id="exitButton" style="display: none;" onclick="showPage('login')">Выход</button>
+        </header>
+        <main>
+            <!-- Вход -->
+            <div id="loginPage" class="page active">
+                <div class="confirmationForm">
+                    <div class="form-group">
+                        <label for="name">Введите логин:</label>
+                        <input type="text" id="login" name="login" required>
+                    </div>
+                    <div class="form-group password">
+                        <label for="password">Введите пароль:</label>
+                        <input type="password" placeholder="5 символов" id="password" name="password" required>
+                        <!-- Видимый глаз -->
+                        <svg class="eye-icon eye-open" width="24" height="24" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" onclick="togglePassword()">
+                            <path d="M32 16C22 16 13.2 21.6 8 32C13.2 42.4 22 48 32 48C42 48 50.8 42.4 56 32C50.8 21.6 42 16 32 16ZM32 40C27.6 40 24 36.4 24 32C24 27.6 27.6 24 32 24C36.4 24 40 27.6 40 32C40 36.4 36.4 40 32 40Z" fill="currentColor"/>
+                            <circle cx="32" cy="32" r="6" fill="white"/>
+                        </svg>
+                        <!-- Закрытый глаз -->
+                        <svg class="eye-icon eye-closed" width="24" height="24" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" onclick="togglePassword()" style="display: none;">
+                            <path d="M13.673,10.345l-3.097,3.096l39.853,39.854l3.097,-3.097l-39.853,-39.853Z" fill="currentColor"/>
+                            <path d="M17.119,19.984l2.915,2.915c-3.191,2.717 -5.732,6.099 -7.374,9.058l-0.005,0.01c4.573,7.646 11.829,14.872 20.987,13.776c2.472,-0.296 4.778,-1.141 6.885,-2.35l2.951,2.95c-4.107,2.636 -8.815,4.032 -13.916,3.342c-9.198,-1.244 -16.719,-8.788 -21.46,-17.648c2.226,-4.479 5.271,-8.764 9.017,-12.053Zm6.63,-4.32c2.572,-1.146 5.355,-1.82 8.327,-1.868c0.165,-0.001 2.124,0.092 3.012,0.238c0.557,0.092 1.112,0.207 1.659,0.35c8.725,2.273 15.189,10.054 19.253,17.653c-1.705,3.443 -3.938,6.398 -6.601,9.277l-2.827,-2.827c1.967,-2.12 3.622,-4.161 4.885,-6.45c0,0 -1.285,-2.361 -2.248,-3.643c-0.619,-0.824 -1.27,-1.624 -1.954,-2.395c-0.54,-0.608 -2.637,-2.673 -3.136,-3.103c-3.348,-2.879 -7.279,-5.138 -11.994,-5.1c-1.826,0.029 -3.582,0.389 -5.249,0.995l-3.127,-3.127Z" fill="currentColor" fill-rule="nonzero"/>
+                            <path d="M25.054,27.92l2.399,2.399c-0.157,0.477 -0.243,0.987 -0.243,1.516c0,2.672 2.169,4.841 4.841,4.841c0.529,0 1.039,-0.085 1.516,-0.243l2.399,2.399c-1.158,0.65 -2.494,1.02 -3.915,1.02c-4.425,0 -8.017,-3.592 -8.017,-8.017c0,-1.421 0.371,-2.756 1.02,-3.914Zm6.849,-4.101c0.049,-0.001 0.099,-0.002 0.148,-0.002c4.425,0 8.017,3.593 8.017,8.017c0,0.05 0,0.099 -0.001,0.148l-8.164,-8.163Z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <button class="btn-submit" type="button" onclick="showPage('welcome')">Подтвердить</button>
+                </div>
+            </div>
+            <!-- Страница приветствия -->
+            <div id="welcomePage" class="page">
+                <div class="pageHello">
+                    <p>Добро пожаловать, "Администратор"</p> <!--В кавычки должен подгружаться ник, что был написан в логине -->
+                    <button class="btn-start" onclick="showPage('news')">Начать работу</button>
+                    <button class="btn-exit" onclick="showPage('login')">Выйти</button>
+                </div>
+            </div>
+            
+            <!-- Основной контейнер с меню и контентом -->
+            <div id="adminContainer" class="admin-layout" style="display: none;">
+                <!-- Левое меню (статика) -->
+                <div class="sidebar">
+                    <button class="sidebar-btn" onclick="showPage('news')">Новости</button>
+                    <button class="sidebar-btn" onclick="showPage('characters')">Персонажи</button>
+                    <button class="sidebar-btn" onclick="showPage('teams')">Отряды</button>
+                    <button class="sidebar-btn" onclick="showPage('planets')">Планета</button>
+                </div>
+                
+                <!-- Область содержимого (динамическая) -->
+                <div class="content-area" id="contentArea">
+                    <!-- Контент будет загружаться сюда динамически -->
+                </div>
+            </div>
+            
+            <!-- Редактирование новостей -->
+            <div id="editNewsPage" class="page">
+                <div class="admin-layout">
+                    <div class="sidebar">
+                        <button class="sidebar-btn" onclick="showPage('news')">Новости</button>
+                        <button class="sidebar-btn" onclick="showPage('characters')">Персонажи</button>
+                        <button class="sidebar-btn" onclick="showPage('teams')">Отряды</button>
+                        <button class="sidebar-btn" onclick="showPage('planets')">Планеты</button>
+                    </div>
+                    <div class="content-area">
+                        <div class="content-header">
+                            <h2>Редактирование новости</h2>
+                            <button class="btn-show-list" onclick="showPage('news')">← Назад</button>
+                        </div>
+                        <div class="card-form">
+                            <div class="form-row">
+                                <label>Заголовок:</label>
+                                <input type="text">
+                            </div>
+                            <div class="form-row">
+                                <label>Описание:</label>
+                                <textarea rows="4"></textarea>
+                            </div>
+                            <div class="form-row">
+                                <label>Дата:</label>
+                                <input type="date">
+                            </div>
+                            <div class="form-row">
+                                <label>Фото:</label>
+                                <input type="url">
+                            </div>
+                            <div class="button-group">
+                                <button class="btn-save-add" onclick="showPage('news')">Сохранить</button>
+                                <button class="btn-delete" onclick="showDeleteConfirm()">Удалить</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Редактирование персонажей -->
+            <div id="editCharacterPage" class="page">
+                <div class="admin-layout">
+                    <div class="sidebar">
+                        <button class="sidebar-btn" onclick="showPage('news')">Новости</button>
+                        <button class="sidebar-btn" onclick="showPage('characters')">Персонажи</button>
+                        <button class="sidebar-btn" onclick="showPage('teams')">Отряды</button>
+                        <button class="sidebar-btn" onclick="showPage('planets')">Планеты</button>
+                    </div>
+                    <div class="content-area">
+                        <div class="content-header">
+                            <h2>Редактирование персонажа</h2>
+                            <button class="btn-show-list" onclick="showPage('characters')">← Назад</button>
+                        </div>
+                        <div class="card-form">
+                            <div class="form-row">
+                                <label>Имя:</label>
+                                <input type="text" value="Имя персонажа">
+                            </div>
+                            <div class="form-row">
+                                <label>Описание:</label>
+                                <textarea rows="4">Описание персонажа</textarea>
+                            </div>
+                            <div class="form-row">
+                                <label>Оружие:</label>
+                                <input type="text" value="Меч, артефакт">
+                            </div>
+                            <div class="form-row">
+                                <label>Фото:</label>
+                                <input type="url" value="https://example.com/character.jpg">
+                            </div>
+                            <div class="button-group">
+                                <button class="btn-save-add" onclick="showPage('characters')">Сохранить</button>
+                                <button class="btn-delete" onclick="showDeleteConfirm()">Удалить</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Редактирование отрядов -->
+            <div id="editTeamPage" class="page">
+                <div class="admin-layout">
+                    <div class="sidebar">
+                        <button class="sidebar-btn" onclick="showPage('news')">Новости</button>
+                        <button class="sidebar-btn" onclick="showPage('characters')">Персонажи</button>
+                        <button class="sidebar-btn" onclick="showPage('teams')">Отряды</button>
+                        <button class="sidebar-btn" onclick="showPage('planets')">Планеты</button>
+                    </div>
+                    <div class="content-area">
+                        <div class="content-header">
+                            <h2>Редактирование отряда</h2>
+                            <button class="btn-show-list" onclick="showPage('teams')">← Назад</button>
+                        </div>
+                        <div class="card-form">
+                            <div class="form-row">
+                                <label>Изображение 1:</label>
+                                <input type="url" value="https://example.com/team1.jpg">
+                            </div>
+                            <div class="form-row">
+                                <label>Изображение 2:</label>
+                                <input type="url" value="https://example.com/team2.jpg">
+                            </div>
+                            <div class="form-row">
+                                <label>Изображение 3:</label>
+                                <input type="url" value="https://example.com/team3.jpg">
+                            </div>
+                            <div class="form-row">
+                                <label>Описание:</label>
+                                <textarea rows="4">Описание отряда</textarea>
+                            </div>
+                            <div class="button-group">
+                                <button class="btn-save-add" onclick="showPage('teams')">Сохранить</button>
+                                <button class="btn-delete" onclick="showDeleteConfirm()">Удалить</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Редактирование планет -->
+            <div id="editPlanetPage" class="page">
+                <div class="admin-layout">
+                    <div class="sidebar">
+                        <button class="sidebar-btn" onclick="showPage('news')">Новости</button>
+                        <button class="sidebar-btn" onclick="showPage('characters')">Персонажи</button>
+                        <button class="sidebar-btn" onclick="showPage('teams')">Отряды</button>
+                        <button class="sidebar-btn" onclick="showPage('planets')">Планеты</button>
+                    </div>
+                    <div class="content-area">
+                        <div class="content-header">
+                            <h2>Редактирование планеты</h2>
+                            <button class="btn-show-list" onclick="showPage('planets')">← Назад</button>
+                        </div>
+                        <div class="card-form">
+                            <div class="form-row">
+                                <label>Название:</label>
+                                <input type="text" value="Название планеты">
+                            </div>
+                            <div class="form-row">
+                                <label>Фото:</label>
+                                <input type="url" value="https://example.com/planet.jpg">
+                            </div>
+                            <div class="form-row">
+                                <label>Описание:</label>
+                                <textarea rows="4">Описание планеты</textarea>
+                            </div>
+                            <div class="button-group">
+                                <button class="btn-save-add" onclick="showPage('planets')">Сохранить</button>
+                                <button class="btn-delete" onclick="showDeleteConfirm()">Удалить</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Окно списка новостей-->
+            <div id="newsModal" class="modal-overlay hidden">
+                <div class="modal-window">
+                    <div class="modal-header">
+                        <h3>Список старых новостей</h3>
+                        <button class="modal-close" onclick="toggleModal('newsModal')">✕</button>
+                    </div>
+                    <div class="records-list">
+                        <!-- Запись 1 -->
+                        <div class="record-item">
+                            <div class="record-details">
+                                <span class="record-date">26.03.2025</span>
+                                <span class="record-author">Автор: Анна</span>
+                                <span class="record-title">Заголовок новости 1</span>
+                            </div>
+                            <div class="record-actions">
+                                <button class="icon-btn" onclick="showPage('editNews')" title="Редактировать">
+                                    <svg width="20" height="20" viewBox="0 0 512 512">
+                                        <polygon points="103 464 48 464 48 409 358.14 98.09 413.91 153.87 103 464"/>
+                                        <path d="M425.72,142,370,86.28l31.66-30.66C406.55,50.7,414.05,48,421,48a25.91,25.91,0,0,1,18.42,7.62l17,17A25.87,25.87,0,0,1,464,91c0,7-2.71,14.45-7.62,19.36Z"/>
+                                    </svg>
+                                </button>
+                                <button class="icon-btn" onclick="showDeleteConfirm()" title="Удалить">
+                                    <svg width="20" height="20" viewBox="0 0 512 512">
+                                        <path d="M64,160,93.74,442.51A24,24,0,0,0,117.61,464H394.39a24,24,0,0,0,23.87-21.49L448,160ZM312,377.46l-56-56-56,56L174.54,352l56-56-56-56L200,214.54l56,56,56-56L337.46,240l-56,56,56,56Z"/>
+                                        <rect x="32" y="48" width="448" height="80" rx="12" ry="12"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Запись 2 -->
+                        <div class="record-item">
+                            <div class="record-details">
+                                <span class="record-date">25.03.2025</span>
+                                <span class="record-author">Автор: Илья</span>
+                                <span class="record-title">Релиз патча v2</span>
+                            </div>
+                            <div class="record-actions">
+                                <button class="icon-btn" onclick="showPage('editNews')">
+                                    <svg width="20" height="20" viewBox="0 0 512 512">
+                                        <polygon points="103 464 48 464 48 409 358.14 98.09 413.91 153.87 103 464"/>
+                                        <path d="M425.72,142,370,86.28l31.66-30.66C406.55,50.7,414.05,48,421,48a25.91,25.91,0,0,1,18.42,7.62l17,17A25.87,25.87,0,0,1,464,91c0,7-2.71,14.45-7.62,19.36Z"/>
+                                    </svg>
+                                </button>
+                                <button class="icon-btn" onclick="showDeleteConfirm()">
+                                    <svg width="20" height="20" viewBox="0 0 512 512">
+                                        <path d="M64,160,93.74,442.51A24,24,0,0,0,117.61,464H394.39a24,24,0,0,0,23.87-21.49L448,160ZM312,377.46l-56-56-56,56L174.54,352l56-56-56-56L200,214.54l56,56,56-56L337.46,240l-56,56,56,56Z"/>
+                                        <rect x="32" y="48" width="448" height="80" rx="12" ry="12"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Окно списка персонажей-->
+            <div id="charactersModal" class="modal-overlay hidden">
+                <div class="modal-window">
+                    <div class="modal-header">
+                        <h3>Список персонажей</h3>
+                        <button class="modal-close" onclick="toggleModal('charactersModal')">✕</button>
+                    </div>
+                    <div class="records-list">
+                        <div class="record-item">
+                            <div class="record-details">
+                                <span class="record-title">Персонаж 1</span>
+                            </div>
+                            <div class="record-actions">
+                                <button class="icon-btn" onclick="toggleComments('comments1')" title="Комментарии">
+                                    <svg width="20" height="20" viewBox="0 0 512 512">
+                                        <path d="M475.22,206.52C464.88,157.87,437.46,113.59,398,81.84A227.4,227.4,0,0,0,255.82,32C194.9,32,138,55.47,95.46,98.09,54.35,139.33,31.82,193.78,32,251.37A215.66,215.66,0,0,0,67.65,370.13L72,376.18,48,480l114.8-28.56s2.3.77,4,1.42,16.33,6.26,31.85,10.6c12.9,3.6,39.74,9,60.77,9,59.65,0,115.35-23.1,156.83-65.06C457.36,365.77,480,310.42,480,251.49A213.5,213.5,0,0,0,475.22,206.52Z"/>
+                                        <circle cx="160" cy="256" r="32"/>
+                                        <circle cx="256" cy="256" r="32"/>
+                                        <circle cx="352" cy="256" r="32"/>
+                                    </svg>
+                                </button>
+                                <button class="icon-btn" onclick="showPage('editCharacter')" title="Редактировать">
+                                    <svg width="20" height="20" viewBox="0 0 512 512">
+                                        <polygon points="103 464 48 464 48 409 358.14 98.09 413.91 153.87 103 464"/>
+                                        <path d="M425.72,142,370,86.28l31.66-30.66C406.55,50.7,414.05,48,421,48a25.91,25.91,0,0,1,18.42,7.62l17,17A25.87,25.87,0,0,1,464,91c0,7-2.71,14.45-7.62,19.36Z"/>
+                                    </svg>
+                                </button>
+                                <button class="icon-btn" onclick="showDeleteConfirm()" title="Удалить">
+                                    <svg width="20" height="20" viewBox="0 0 512 512">
+                                        <path d="M64,160,93.74,442.51A24,24,0,0,0,117.61,464H394.39a24,24,0,0,0,23.87-21.49L448,160ZM312,377.46l-56-56-56,56L174.54,352l56-56-56-56L200,214.54l56,56,56-56L337.46,240l-56,56,56,56Z"/>
+                                        <rect x="32" y="48" width="448" height="80" rx="12" ry="12"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="comments1" class="comments-section hidden">
+                            <h4>Комментарии к персонажу</h4>
+                            <div class="comment-item">
+                                <div class="comment-header">
+                                    <span class="comment-date">26.03.2025</span>
+                                    <span class="comment-author">Алексей:</span>
+                                </div>
+                                <p class="comment-text">Отличный персонаж! Очень понравилась его предыстория.</p>
+                                <button class="icon-btn" onclick="showDeleteConfirm()" style="position: absolute; top: 10px; right: 10px;">
+                                    <svg width="16" height="16" viewBox="0 0 512 512">
+                                        <path d="M64,160,93.74,442.51A24,24,0,0,0,117.61,464H394.39a24,24,0,0,0,23.87-21.49L448,160ZM312,377.46l-56-56-56,56L174.54,352l56-56-56-56L200,214.54l56,56,56-56L337.46,240l-56,56,56,56Z"/>
+                                        <rect x="32" y="48" width="448" height="80" rx="12" ry="12"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn-add" onclick="toggleModal('charactersModal')">➕ Добавить</button>
+                </div>
+            </div>
+            <!-- Окно списка отрядов-->
+            <div id="teamsModal" class="modal-overlay hidden">
+                <div class="modal-window">
+                    <div class="modal-header">
+                        <h3>Список отрядов</h3>
+                        <button class="modal-close" onclick="toggleModal('teamsModal')">✕</button>
+                    </div>
+                    <div class="records-list">
+                        <div class="record-item">
+                            <div class="record-details">
+                                <span class="record-title">Отряд 1</span>
+                            </div>
+                            <div class="record-actions">
+                                <button class="icon-btn" onclick="toggleComments('comments2')" title="Комментарии">
+                                    <svg width="20" height="20" viewBox="0 0 512 512">
+                                        <path d="M475.22,206.52C464.88,157.87,437.46,113.59,398,81.84A227.4,227.4,0,0,0,255.82,32C194.9,32,138,55.47,95.46,98.09,54.35,139.33,31.82,193.78,32,251.37A215.66,215.66,0,0,0,67.65,370.13L72,376.18,48,480l114.8-28.56s2.3.77,4,1.42,16.33,6.26,31.85,10.6c12.9,3.6,39.74,9,60.77,9,59.65,0,115.35-23.1,156.83-65.06C457.36,365.77,480,310.42,480,251.49A213.5,213.5,0,0,0,475.22,206.52Z"/>
+                                        <circle cx="160" cy="256" r="32"/>
+                                        <circle cx="256" cy="256" r="32"/>
+                                        <circle cx="352" cy="256" r="32"/>
+                                    </svg>
+                                </button>
+                                <button class="icon-btn" onclick="showPage('editTeam')" title="Редактировать">
+                                    <svg width="20" height="20" viewBox="0 0 512 512">
+                                        <polygon points="103 464 48 464 48 409 358.14 98.09 413.91 153.87 103 464"/>
+                                        <path d="M425.72,142,370,86.28l31.66-30.66C406.55,50.7,414.05,48,421,48a25.91,25.91,0,0,1,18.42,7.62l17,17A25.87,25.87,0,0,1,464,91c0,7-2.71,14.45-7.62,19.36Z"/>
+                                    </svg>
+                                </button>
+                                <button class="icon-btn" onclick="showDeleteConfirm()" title="Удалить">
+                                    <svg width="20" height="20" viewBox="0 0 512 512">
+                                        <path d="M64,160,93.74,442.51A24,24,0,0,0,117.61,464H394.39a24,24,0,0,0,23.87-21.49L448,160ZM312,377.46l-56-56-56,56L174.54,352l56-56-56-56L200,214.54l56,56,56-56L337.46,240l-56,56,56,56Z"/>
+                                        <rect x="32" y="48" width="448" height="80" rx="12" ry="12"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="comments2" class="comments-section hidden">
+                            <h4>Комментарии к отряду</h4>
+                            <div class="comment-item">
+                                <div class="comment-header">
+                                    <span class="comment-date">25.03.2025</span>
+                                    <span class="comment-author">Мария:</span>
+                                </div>
+                                <p class="comment-text">Лучший отряд в игре! Сбалансированный состав.</p>
+                                <button class="icon-btn" onclick="showDeleteConfirm()" style="position: absolute; top: 10px; right: 10px;">
+                                    <svg width="16" height="16" viewBox="0 0 512 512">
+                                        <path d="M64,160,93.74,442.51A24,24,0,0,0,117.61,464H394.39a24,24,0,0,0,23.87-21.49L448,160ZM312,377.46l-56-56-56,56L174.54,352l56-56-56-56L200,214.54l56,56,56-56L337.46,240l-56,56,56,56Z"/>
+                                        <rect x="32" y="48" width="448" height="80" rx="12" ry="12"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Окно списка планет-->
+            <div id="planetsModal" class="modal-overlay hidden">
+                <div class="modal-window">
+                    <div class="modal-header">
+                        <h3>Список планет</h3>
+                        <button class="modal-close" onclick="toggleModal('planetsModal')">✕</button>
+                    </div>
+                    <div class="records-list">
+                        <div class="record-item">
+                            <div class="record-details">
+                                <span class="record-title">Планета 1</span>
+                            </div>
+                            <div class="record-actions">
+                                <button class="icon-btn" onclick="showPage('editPlanet')" title="Редактировать">
+                                    <svg width="20" height="20" viewBox="0 0 512 512">
+                                        <polygon points="103 464 48 464 48 409 358.14 98.09 413.91 153.87 103 464"/>
+                                        <path d="M425.72,142,370,86.28l31.66-30.66C406.55,50.7,414.05,48,421,48a25.91,25.91,0,0,1,18.42,7.62l17,17A25.87,25.87,0,0,1,464,91c0,7-2.71,14.45-7.62,19.36Z"/>
+                                    </svg>
+                                </button>
+                                <button class="icon-btn" onclick="showDeleteConfirm()" title="Удалить">
+                                    <svg width="20" height="20" viewBox="0 0 512 512">
+                                        <path d="M64,160,93.74,442.51A24,24,0,0,0,117.61,464H394.39a24,24,0,0,0,23.87-21.49L448,160ZM312,377.46l-56-56-56,56L174.54,352l56-56-56-56L200,214.54l56,56,56-56L337.46,240l-56,56,56,56Z"/>
+                                        <rect x="32" y="48" width="448" height="80" rx="12" ry="12"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Окно списка комментариев пользователей со страницы с Персонажами-->
+            <div id="newsModal" class="modal-overlay hidden">
+                <div class="modal-window">
+                    <div class="modal-header">
+                        <h3>Список старых новостей</h3>
+                        <button class="modal-close" onclick="toggleModal('newsModal')">✕</button>
+                    </div>
+                    <div class="records-list">
+                        <!-- Запись 1 -->
+                        <div class="record-item">
+                            <div class="record-details">
+                                <span class="record-date">26.03.2025</span>
+                                <span class="record-author">Автор: Анна</span>
+                                <span class="record-title">Заголовок новости 1</span>
+                            </div>
+                            <div class="record-actions">
+                                <button class="icon-btn" onclick="showDeleteConfirm()" title="Удалить">
+                                    <svg width="20" height="20" viewBox="0 0 512 512">
+                                        <path d="M64,160,93.74,442.51A24,24,0,0,0,117.61,464H394.39a24,24,0,0,0,23.87-21.49L448,160ZM312,377.46l-56-56-56,56L174.54,352l56-56-56-56L200,214.54l56,56,56-56L337.46,240l-56,56,56,56Z"/>
+                                        <rect x="32" y="48" width="448" height="80" rx="12" ry="12"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Запись 2 -->
+                        <div class="record-item">
+                            <div class="record-details">
+                                <span class="record-date">25.03.2025</span>
+                                <span class="record-author">Автор: Илья</span>
+                                <span class="record-title">Релиз патча v2</span>
+                            </div>
+                            <div class="record-actions">
+                                <button class="icon-btn" onclick="showPage('editNews')">
+                                    <svg width="20" height="20" viewBox="0 0 512 512">
+                                        <polygon points="103 464 48 464 48 409 358.14 98.09 413.91 153.87 103 464"/>
+                                        <path d="M425.72,142,370,86.28l31.66-30.66C406.55,50.7,414.05,48,421,48a25.91,25.91,0,0,1,18.42,7.62l17,17A25.87,25.87,0,0,1,464,91c0,7-2.71,14.45-7.62,19.36Z"/>
+                                    </svg>
+                                </button>
+                                <button class="icon-btn" onclick="showDeleteConfirm()">
+                                    <svg width="20" height="20" viewBox="0 0 512 512">
+                                        <path d="M64,160,93.74,442.51A24,24,0,0,0,117.61,464H394.39a24,24,0,0,0,23.87-21.49L448,160ZM312,377.46l-56-56-56,56L174.54,352l56-56-56-56L200,214.54l56,56,56-56L337.46,240l-56,56,56,56Z"/>
+                                        <rect x="32" y="48" width="448" height="80" rx="12" ry="12"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Окно списка комментариев пользователей со страницы с Отрядами-->
+            <div id="newsModal" class="modal-overlay hidden">
+                <div class="modal-window">
+                    <div class="modal-header">
+                        <h3>Список старых новостей</h3>
+                        <button class="modal-close" onclick="toggleModal('newsModal')">✕</button>
+                    </div>
+                    <div class="records-list">
+                        <!-- Запись 1 -->
+                        <div class="record-item">
+                            <div class="record-details">
+                                <span class="record-date">26.03.2025</span>
+                                <span class="record-author">Автор: Анна</span>
+                                <span class="record-title">Заголовок новости 1</span>
+                            </div>
+                            <div class="record-actions">
+                                <button class="icon-btn" onclick="showDeleteConfirm()" title="Удалить">
+                                    <svg width="20" height="20" viewBox="0 0 512 512">
+                                        <path d="M64,160,93.74,442.51A24,24,0,0,0,117.61,464H394.39a24,24,0,0,0,23.87-21.49L448,160ZM312,377.46l-56-56-56,56L174.54,352l56-56-56-56L200,214.54l56,56,56-56L337.46,240l-56,56,56,56Z"/>
+                                        <rect x="32" y="48" width="448" height="80" rx="12" ry="12"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Запись 2 -->
+                        <div class="record-item">
+                            <div class="record-details">
+                                <span class="record-date">25.03.2025</span>
+                                <span class="record-author">Автор: Илья</span>
+                                <span class="record-title">Релиз патча v2</span>
+                            </div>
+                            <div class="record-actions">
+                                <button class="icon-btn" onclick="showPage('editNews')">
+                                    <svg width="20" height="20" viewBox="0 0 512 512">
+                                        <polygon points="103 464 48 464 48 409 358.14 98.09 413.91 153.87 103 464"/>
+                                        <path d="M425.72,142,370,86.28l31.66-30.66C406.55,50.7,414.05,48,421,48a25.91,25.91,0,0,1,18.42,7.62l17,17A25.87,25.87,0,0,1,464,91c0,7-2.71,14.45-7.62,19.36Z"/>
+                                    </svg>
+                                </button>
+                                <button class="icon-btn" onclick="showDeleteConfirm()">
+                                    <svg width="20" height="20" viewBox="0 0 512 512">
+                                        <path d="M64,160,93.74,442.51A24,24,0,0,0,117.61,464H394.39a24,24,0,0,0,23.87-21.49L448,160ZM312,377.46l-56-56-56,56L174.54,352l56-56-56-56L200,214.54l56,56,56-56L337.46,240l-56,56,56,56Z"/>
+                                        <rect x="32" y="48" width="448" height="80" rx="12" ry="12"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Уведомление об удалении -->
+            <div id="deleteConfirmModal" class="modal-overlay hidden">
+                <div class="modal-window delete-confirm-window">
+                    <p>Вы уверены, что хотите удалить это?</p>
+                    <div class="confirm-buttons">
+                        <button class="btn-yes" onclick="confirmDelete()">Да</button>
+                        <button class="btn-no" onclick="hideDeleteConfirm()">Нет</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+   
+    </body>
+</html>
