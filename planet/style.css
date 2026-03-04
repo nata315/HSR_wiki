@@ -1,0 +1,222 @@
+/* Базовые стили для body */
+body {
+    background: #FDFDF5;
+    margin: 0;
+    font-family: comic sans ms;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Главный контент должен растягиваться */
+main {
+    flex: 1 0 auto;
+    width: 100%;
+}
+
+.header {
+    background: #13213B;
+    color: #F1FEA2;
+    padding: 15px;
+    position: relative; 
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    min-height: 60px; 
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    position: relative;
+    flex: 0 0 auto;
+    z-index: 2;
+}
+
+.header-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 1;
+    width: auto;
+}
+
+.back-button, .nav-arrow, .menu-button {
+    background: #5E93C5;
+    color: #F1FEA2;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+        font-family: comic sans ms;
+    font-size: 16px;
+}
+
+#logo {
+    height: 40px;
+    width: auto;
+    margin-right: 10px;
+}
+
+/* Чтобы текст центрировался вместе с блоком */
+.section-title {
+    text-align: center;
+    margin: 0 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px;
+    min-width: 150px;
+}
+
+/* Стили для выпадающего меню */
+.header-right {
+    position: relative;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background: white;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    min-width: 150px;
+    z-index: 1000;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.menu-item {
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    background: white;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    color: #3d5690;
+    font-family: comic sans ms;
+    font-size: 16px;
+}
+
+.menu-item:hover {
+    background: #f5f5f5;
+}
+
+/*Стили для планет*/
+.Planet-section {
+    display: none;
+    padding: 20px;
+    max-width: 90%; 
+    margin: 0 auto; 
+    text-align: center; 
+}
+
+/* Изображение: ограничим ширину, но оставим адаптивным */
+.planet-img {
+    width: auto;
+    /*max-width: 400px;*/
+    height: 200px; /*auto*/
+    border-radius: 5px;
+    background: #ddd;
+    margin: 0 auto 20px;
+    display: block;
+}
+
+/* Текст: выравниваем по ширине, но не растягиваем на всю ширину блока */
+.planet-description {
+    text-align: justify; 
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.planet-description p {
+    color: #3D5690;
+    margin: 10px 0;
+}
+
+/* Стиль подвала */
+.footer {
+    background: #13213B;
+    color: #F1FEA2;
+    padding: 20px;
+    text-align: center;
+    margin: 0;
+    margin-top: 5%;
+}
+
+/* Ссылка в подвале */
+.footer-link {
+    color: #F1FEA2;
+    text-decoration: none;
+}
+
+.footer-link:hover {
+    text-decoration: underline;
+}
+
+/* Чтобы стрелки не пропадали при узком экране */
+@media (max-width: 768px) {
+    .header-center {
+        position: static;
+        transform: none;
+        flex: 1 1 auto;
+        justify-content: center;
+        margin: 0 10px;
+    }
+    
+    .section-title {
+        max-width: 150px;
+        font-size: 14px;
+    }
+    
+    .header-container {
+        flex-wrap: wrap;
+    }
+    
+    .header-left, .header-right {
+        flex: 0 0 auto;
+    }
+
+    .footer {
+        padding: 15px;
+    }
+    
+    .footer-link {
+        font-size: 16px;
+    }
+}
+
+/* Для очень узких экранов */
+@media (max-width: 480px) {
+    .section-title {
+        max-width: 120px;
+        font-size: 12px;
+    }
+    
+    .nav-arrow {
+        padding: 5px 8px;
+    }
+
+    .footer {
+        padding: 12px;
+    }
+    
+    .footer-link {
+        font-size: 14px;
+    }
+}
