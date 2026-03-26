@@ -67,11 +67,11 @@ const contentTemplates = {
     <form action="server/cards_save.php" method="POST" class="admin-form" id="form-character" >
       <div class="form-row">
         <label for="char-id">ID:</label>
-        <input name="id_card" type="text" id="char-id">
+        <input name="id_card" type="text" id="char-id" placeholder="charterName_card">
       </div>
       <div class="form-row">
         <label for="char-name">Имя:</label>
-        <input name="name_card" type="text" id="char-name">
+        <input name="name_card" type="text" id="char-name" placeholder="Имя на русском">
       </div>
       <div class="form-row">
         <label for="char-desc">Описание:</label>
@@ -79,7 +79,7 @@ const contentTemplates = {
       </div>
       <div class="form-row">
         <label for="char-photo">Фото:</label>
-        <input name="image_card" type="url" id="char-photo">
+        <input name="image_card" type="url" id="char-photo" placeholder="ссылка на изображение">
       </div>
       <div class="form-actions">
         <button type="submit" class="btn-add">Добавить</button>
