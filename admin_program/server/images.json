@@ -100,5 +100,17 @@
         "name": "Аргенти",
         "description": "",
         "image": "https:\/\/static.wikia.nocookie.net\/houkai-star-rail\/images\/9\/90\/Character_Argenti_Splash_Art.png\/revision\/latest?cb=20231206232011"
+    },
+    {
+        "id": null,
+        "name": null,
+        "description": "",
+        "image": false
+    },
+    {
+        "id": "Huohuo_card",
+        "name": "Хо-хо",
+        "description": "",
+        "image": "https:\/\/static.wikia.nocookie.net\/houkai-star-rail\/images\/8\/82\/Character_Huohuo_Splash_Art.png\/revision\/latest\/scale-to-width-down\/1000?cb=20250604025217"
     }
 ]

@@ -16,198 +16,120 @@
       </div>
 
       <div class="header-center-userBadge hidden" id="userBadge">
-        <svg width="30" height="30" viewBox="0 0 32 32">
+        <svg width="30" height="30" viewBox="0 0 32 32" fill="currentColor">
           <path
             d="M16 15.503A5.041 5.041 0 1 0 16 5.42a5.041 5.041 0 0 0 0 10.083zm0 2.215c-6.703 0-11 3.699-11 5.5v3.363h22v-3.363c0-2.178-4.068-5.5-11-5.5z"
           />
         </svg>
-
-        <input type="text" readonly id="adminName" />
+        <span id="adminNameDisplay">Admin</span>
       </div>
 
-      <button class="btn-exit hidden" id="exitButton">Выход</button>
+      <button class="btn-exit-header hidden" id="exitButton">Выход</button>
     </header>
 
     <main>
       <!-- LOGIN PAGE -->
-
       <section id="loginPage" class="page active">
-        <form class="confirmationForm">
+        <form class="loginForm" id="loginForm">
+          <h1>Вход в админ-панель</h1>
           <div class="form-group">
             <label>Введите логин</label>
-            <input type="text" id="login" required />
+            <input type="text" id="login" placeholder="Логин" required />
           </div>
 
-          <div class="form-group password">
+          <div class="form-group password-group">
             <label>Введите пароль</label>
-            <input
-              type="password"
-              id="password"
-              placeholder="5 символов"
-              required
-            />
-
-            <button type="button" class="toggle-password"></button>
+            <div class="password-wrapper">
+              <input
+                type="password"
+                id="password"
+                placeholder="Введите пароль"
+                required
+              />
+              <button
+                type="button"
+                class="eye-icon"
+                id="togglePassword"
+                aria-label="Показать пароль"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </button>
+            </div>
           </div>
 
-          <button class="btn-submit" type="button" data-page="welcome">
-            Подтвердить
-          </button>
+          <button class="btn-submit" type="submit">Подтвердить</button>
         </form>
       </section>
 
       <!-- WELCOME PAGE -->
-
       <section id="welcomePage" class="page">
-        <div class="pageHello">
+        <div class="welcome-container">
           <p>
             Добро пожаловать,
-            <span id="adminNameText">Администратор</span>
+            <span id="welcomeAdminName">Администратор</span>
           </p>
-
-          <button class="btn-start" data-page="news">Начать работу</button>
-
-          <button class="btn-exit" data-page="login">Выйти</button>
+          <div class="welcome-actions">
+            <button class="btn-start" data-page="news">Начать работу</button>
+            <button class="btn-exit-welcome" data-page="login">Выйти</button>
+          </div>
         </div>
       </section>
 
-      <!-- ADMIN LAYOUT -->
-
+      <!-- ADMIN LAYOUT (ОСНОВНАЯ РАБОЧАЯ ОБЛАСТЬ) -->
       <section id="adminContainer" class="admin-layout hidden">
         <!-- SIDEBAR (ОДИН НА ВСЕ СТРАНИЦЫ) -->
-
         <aside class="sidebar">
           <button class="sidebar-btn" data-page="news">Новости</button>
-
           <button class="sidebar-btn" data-page="characters">Персонажи</button>
-
           <button class="sidebar-btn" data-page="teams">Отряды</button>
-
           <button class="sidebar-btn" data-page="planets">Планеты</button>
         </aside>
 
-        <!-- MAIN CONTENT -->
-
+        <!-- ОСНОВНОЙ КОНТЕНТ -->
         <div class="content-area" id="contentArea">
           <!-- Контент подгружается JS -->
         </div>
       </section>
+    </main>
 
-      <!-- EDIT FORMS -->
-
-      <section id="editNewsPage" class="page">
-        <div class="content-header">
-          <h2>Редактирование новости</h2>
-          <button data-page="news">Назад</button>
-        </div>
-
-        <form class="card-form">
-          <label>Заголовок</label>
-          <input type="text" />
-
-          <label>Описание</label>
-          <textarea rows="4"></textarea>
-
-          <label>Дата</label>
-          <input type="date" />
-
-          <label>Фото</label>
-          <input type="url" />
-
-          <div class="button-group">
-            <button class="btn-save-add">Сохранить</button>
-            <button class="btn-delete">Удалить</button>
-          </div>
-        </form>
-      </section>
-
-      <section id="editCharacterPage" class="page">
-        <div class="content-header">
-          <h2>Редактирование персонажа</h2>
-          <button data-page="characters">Назад</button>
-        </div>
-
-        <form class="card-form">
-          <label>Введите id:</label>
-          <input type="text" name="id_card" />
-
-          <label>Введите имя персонажа:</label>
-          <input type="text" name="name_card" />
-
-          <label>Введите описание:</label>
-          <textarea rows="4" name="description_card"></textarea>
-
-          <label>Введите ссылку на изображение:</label>
-          <input type="text" name="image_card" />
-
-          <div class="button-group">
-            <button class="btn-save-add">Сохранить</button>
-            <button class="btn-delete">Удалить</button>
-          </div>
-        </form>
-      </section>
-
-      <section id="editTeamPage" class="page">
-        <div class="content-header">
-          <h2>Редактирование отряда</h2>
-          <button data-page="teams">Назад</button>
-        </div>
-
-        <form class="card-form">
-          <label>Изображение 1</label>
-          <input type="url" />
-
-          <label>Изображение 2</label>
-          <input type="url" />
-
-          <label>Изображение 3</label>
-          <input type="url" />
-
-          <label>Описание</label>
-          <textarea rows="4"></textarea>
-
-          <div class="button-group">
-            <button class="btn-save-add">Сохранить</button>
-            <button class="btn-delete">Удалить</button>
-          </div>
-        </form>
-      </section>
-
-      <section id="editPlanetPage" class="page">
-        <div class="content-header">
-          <h2>Редактирование планеты</h2>
-          <button data-page="planets">Назад</button>
-        </div>
-
-        <form class="card-form">
-          <label>Название</label>
-          <input type="text" />
-
-          <label>Фото</label>
-          <input type="url" />
-
-          <label>Описание</label>
-          <textarea rows="4"></textarea>
-
-          <div class="button-group">
-            <button class="btn-save-add">Сохранить</button>
-            <button class="btn-delete">Удалить</button>
-          </div>
-        </form>
-      </section>
-
-      <!-- DELETE MODAL -->
-
-      <div id="deleteConfirmModal" class="modal-overlay hidden">
-        <div class="modal-window delete-confirm-window">
-          <p>Вы уверены, что хотите удалить это?</p>
-
-          <div class="confirm-buttons">
-            <button id="confirmDeleteBtn">Да</button>
-            <button id="cancelDeleteBtn">Нет</button>
-          </div>
+    <!-- ГЛОБАЛЬНОЕ МОДАЛЬНОЕ ОКНО ПОДТВЕРЖДЕНИЯ УДАЛЕНИЯ -->
+    <div id="deleteConfirmModal" class="modal-overlay hidden">
+      <div class="modal-window delete-confirm-window">
+        <p>Вы уверены, что хотите удалить это?</p>
+        <div class="confirm-buttons">
+          <button class="btn-yes" id="confirmDeleteBtn">Да</button>
+          <button class="btn-no" id="cancelDeleteBtn">Нет</button>
         </div>
       </div>
-    </main>
+    </div>
+
+    <!-- МОДАЛЬНОЕ ОКНО ДЛЯ СПИСКОВ СТАРЫХ ЗАПИСЕЙ -->
+    <div id="recordsModal" class="modal-overlay hidden">
+      <div class="modal-window records-window">
+        <div class="modal-header">
+          <h3 id="modalTitle">Список записей</h3>
+          <button class="modal-close" id="closeRecordsModal">&times;</button>
+        </div>
+        <div class="modal-body" id="recordsModalBody">
+          <!-- Динамический список записей -->
+        </div>
+      </div>
+    </div>
+
+    <!-- МОДАЛЬНОЕ ОКНО ДЛЯ КОММЕНТАРИЕВ -->
+    <div id="commentsModal" class="modal-overlay hidden">
+      <div class="modal-window comments-window">
+        <div class="modal-header">
+          <h3 id="commentsModalTitle">Список комментариев</h3>
+          <button class="modal-close" id="closeCommentsModal">&times;</button>
+        </div>
+        <div class="modal-body" id="commentsModalBody">
+          <!-- Динамический список комментариев -->
+        </div>
+      </div>
+    </div>
   </body>
 </html>

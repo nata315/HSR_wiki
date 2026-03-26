@@ -1,14 +1,14 @@
 <?php
     $data = [
-        "id" => $_POST["id_card"] 
-        "name" => $_POST["name_card"] 
+        "id" => $_POST["id_card"] ,
+        "name" => $_POST["name_card"] ,
         "description" => $_POST["description_card"] ?? '',
-        "image" => $_POST["image_card"] 
+        "image" => filter_var($_POST["image_card"] ,FILTER_VALIDATE_URL)
     ];
     $com = [
         "id" => $_POST["id_card"] ,
-        "data" = []
-    ]
+        "data" => []
+    ];
 
     $fileName1 = "images.json"; 
     $fileName2 = "comments.json";
