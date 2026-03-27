@@ -31,26 +31,26 @@ const contentTemplates = {
       <h2>Добавление новости</h2>
       <button class="btn-show-list" data-list="news">Показать список записей</button>
     </div>
-    <form class="admin-form" id="form-news">
+    <form action="server/news_save.php" method="POST" class="admin-form" id="form-news">
       <div class="form-row">
         <label for="news-id">ID:</label>
-        <input type="text" id="news-id">
+        <input name="id_news" type="text" id="news-id" placeholder="newsName_news">
       </div>
       <div class="form-row">
         <label for="news-title">Заголовок:</label>
-        <input type="text" id="news-title">
+        <input name="title_news" type="text" id="news-title" placeholder="название на русском">
       </div>
       <div class="form-row">
         <label for="news-desc">Описание:</label>
-        <textarea id="news-desc" rows="5"></textarea>
+        <textarea name="description_news" id="news-desc" rows="5"></textarea>
       </div>
       <div class="form-row">
         <label for="news-date">Дата:</label>
-        <input type="date" id="news-date">
+        <input name="date_news" type="date" id="news-date" placeholder="ГГГГ-ДД-ММ">
       </div>
       <div class="form-row">
         <label for="news-photo">Фото:</label>
-        <input type="url" id="news-photo">
+        <input name="image_news" type="url" id="news-photo" placeholder="ссылка на изображение">
       </div>
       <div class="form-actions">
         <button type="submit" class="btn-add">Добавить</button>
@@ -93,32 +93,32 @@ const contentTemplates = {
       <h2>Добавление отряда</h2>
       <button class="btn-show-list" data-list="teams">Показать список записей</button>
     </div>
-    <form class="admin-form" id="form-team">
+    <form action="server/teams_save.php" method="POST" class="admin-form" id="form-team">
       <div class="form-row">
         <label for="team-id">ID:</label>
-        <input type="text" id="team-id">
+        <input name="id_team" type="text" id="team-id" placeholder="teamName_id" >
       </div>
       <div class="photo-grid">
         <div class="form-row">
           <label for="team-photo1">Фото 1:</label>
-          <input type="url" id="team-photo1">
+          <input name="team_image1" type="url" id="team-photo1" placeholder="ссылка на изображение">
         </div>
         <div class="form-row">
           <label for="team-photo2">Фото 2:</label>
-          <input type="url" id="team-photo2">
+          <input  name="team_image2" type="url" id="team-photo2" placeholder="ссылка на изображение">
         </div>
         <div class="form-row">
           <label for="team-photo3">Фото 3:</label>
-          <input type="url" id="team-photo3">
+          <input name="team_image3" type="url" id="team-photo3" placeholder="ссылка на изображение">
         </div>
         <div class="form-row">
           <label for="team-photo4">Фото 4:</label>
-          <input type="url" id="team-photo4">
+          <input name="team_image4" type="url" id="team-photo4" placeholder="ссылка на изображение">
         </div>
       </div>
       <div class="form-row">
         <label for="team-desc">Описание:</label>
-        <textarea id="team-desc" rows="5"></textarea>
+        <textarea name="description_team" id="team-desc" rows="5" ></textarea>
       </div>
       <div class="form-actions">
         <button type="submit" class="btn-add">Добавить</button>
@@ -132,22 +132,22 @@ const contentTemplates = {
       <h2>Добавление планеты</h2>
       <button class="btn-show-list" data-list="planets">Показать список записей</button>
     </div>
-    <form class="admin-form" id="form-planet">
+    <form action="server/planets_save.php" method="POST" class="admin-form" id="form-planet">
       <div class="form-row">
         <label for="planet-id">ID:</label>
-        <input type="text" id="planet-id">
+        <input name="planet_id" type="text" id="planet-id" placeholder="planetName_id">
       </div>
       <div class="form-row">
         <label for="planet-name">Название:</label>
-        <input type="text" id="planet-name">
+        <input name="planet_name" type="text" id="planet-name" placeholder="имя на русском">
       </div>
       <div class="form-row">
         <label for="planet-photo">Фото:</label>
-        <input type="url" id="planet-photo">
+        <input name="planet_image" type="url" id="planet-photo" placeholder="ссылка на изображение" >
       </div>
       <div class="form-row">
         <label for="planet-desc">Описание:</label>
-        <textarea id="planet-desc" rows="5"></textarea>
+        <textarea name="planet_description" id="planet-desc" rows="5"></textarea>
       </div>
       <div class="form-actions">
         <button type="submit" class="btn-add">Добавить</button>
