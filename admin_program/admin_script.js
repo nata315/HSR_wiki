@@ -3,27 +3,6 @@ let currentPage = "login";
 let currentAdminName = "Admin";
 let currentItemForDelete = null;
 
-// Данные для списков
-const mockNews = [
-  { id: 1, date: "2024-01-15", author: "Иван Петров", title: "Новая эра" },
-  { id: 2, date: "2024-02-20", author: "Анна Смирнова", title: "Обновление вселенной" },
-  { id: 3, date: "2024-03-10", author: "Петр Иванов", title: "Встреча с фанатами" },
-];
-
-const mockCharacters = [
-  { id: 1, name: "Мандалорец" },
-  { id: 2, name: "Грогу" },
-  { id: 3, name: "Боба Фетт" },
-  { id: 4, name: "Асока Тано" },
-  { id: 5, name: "Дарт Вейдер" },
-];
-
-const mockComments = [
-  { id: 1, date: "2024-03-11", author: "Фан_1", text: "Отличный персонаж! Очень харизматичный." },
-  { id: 2, date: "2024-03-10", author: "Зритель_42", text: "А какое у него оружие? В описании не указано." },
-  { id: 3, date: "2024-03-09", author: "Критик", text: "Слишком простоват для такого фильма. Ожидал большего. Очень длинный комментарий, который должен показать, что текст не обрезается и админ может его прочитать целиком. Вот такой вот длинный комментарий." },
-];
-
 // ========== ШАБЛОНЫ КОНТЕНТА ДЛЯ РАЗДЕЛОВ ==========
 const contentTemplates = {
   news: `
@@ -97,6 +76,10 @@ const contentTemplates = {
       <div class="form-row">
         <label for="team-id">ID:</label>
         <input name="id_team" type="text" id="team-id" placeholder="teamName_id" >
+      </div>
+      <div class="form-row">
+        <label for="team-name">Название:</label>
+        <input name="name_team" type="text" id="team-name" placeholder="название отряда">
       </div>
       <div class="photo-grid">
         <div class="form-row">
@@ -231,6 +214,10 @@ const editTemplates = {
         <label for="edit-team-id">ID:</label>
         <input type="text" id="edit-team-id" value="team_001">
       </div>
+      <div class="form-row">
+        <label for="edit-team-name">Название:</label>
+        <input type="text" id="edit-team-name" value="Название отряда">
+      </div>
       <div class="photo-grid">
         <div class="form-row">
           <label for="edit-team-photo1">Фото 1:</label>
@@ -351,96 +338,239 @@ function showRecordsModal(type) {
   
   if (type === "news") {
     title = "Список старых новостей";
-    content = generateNewsList();
+    generateNewsList(modalBody);
+    modal.classList.remove("hidden");
+    attachModalHandlers();
+    return ;
+    
+
   } else if (type === "characters") {
     title = "Список персонажей";
-    content = generateCharactersList();
+
+    modalTitle.textContent = title;
+    generateCharactersList(modalBody);
+    modal.classList.remove("hidden");
+    attachModalHandlers();
+    return ;
+
   } else if (type === "teams") {
     title = "Список отрядов";
-    content = generateTeamsList();
+    generateTeamsList(modalBody);
+    modal.classList.remove("hidden");
+    attachModalHandlers();
+    return ;
+
   } else if (type === "planets") {
     title = "Список планет";
-    content = generatePlanetsList();
+    generatePlanetsList(modalBody);
+    modal.classList.remove("hidden");
+    attachModalHandlers();
+    return ;
   }
   
-  modalTitle.textContent = title;
+  /*modalTitle.textContent = title;
   modalBody.innerHTML = content;
   modal.classList.remove("hidden");
   
-  attachModalHandlers();
+  attachModalHandlers();*/
 }
 
-function generateNewsList() {
-  let html = '<div class="records-list">';
+//список новостей
+async function generateNewsList(modalBody) {
+  const outputDiv = modalBody;
+  try {
+      // Загружаем файл (предполагается, что data.json лежит рядом с index.html)
+      const response = await fetch('server/news.json');
+      
+      if (!response.ok) {
+          throw new Error(`Ошибка HTTP: ${response.status}`);
+      }
+      
+      // Парсим JSON
+      const data = await response.json();
+
+      let html = '<div class="records-list">';
+
+      data.forEach(item => {
+        html += `
+          <div class="record-item" data-id="${item.id}">
+            <div class="record-info">
+              <span class="record-date">${item.date}</span>
+              <span class="record-title">${item.id}</span>
+            </div>
+            <div class="record-actions">
+              <button class="icon-btn" data-action="edit-news" data-id="${item.id}" title="Редактировать">
+                <svg viewBox="0 0 24 24" width="20" height="20">
+                  <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                </svg>
+              </button>
+              <button class="icon-btn" data-action="delete" data-id="${item.id}" data-type="news" title="Удалить">
+                <svg viewBox="0 0 24 24" width="20" height="20">
+                  <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        `;
+      });
+      
+      html += '</div>';
+      outputDiv.innerHTML = html;
+      
+  } catch (error) {
+      // Показываем ошибку, если файл не найден или JSON битый
+      outputDiv.innerHTML = `<p class="error">Не удалось загрузить data.json: ${error.message}</p>`;
+  }
+}
+//ответь смогу ли я через live server загрузить данные в json через php ?
+
+
+/// генерация списка персонажей
+//открытие и отображение списка персонажей в меню
+async function generateCharactersList(modalBody) {
+  const outputDiv = modalBody;
   
-  mockNews.forEach(item => {
-    html += `
-      <div class="record-item" data-id="${item.id}">
-        <div class="record-info">
-          <span class="record-date">${item.date}</span>
-          <span class="record-author">${item.author}</span>
-          <span class="record-title">${item.title}</span>
-        </div>
-        <div class="record-actions">
-          <button class="icon-btn" data-action="edit-news" data-id="${item.id}" title="Редактировать">
-            <svg viewBox="0 0 24 24" width="20" height="20">
-              <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
-            </svg>
-          </button>
-          <button class="icon-btn" data-action="delete" data-id="${item.id}" data-type="news" title="Удалить">
-            <svg viewBox="0 0 24 24" width="20" height="20">
-              <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-    `;
-  });
-  
-  html += '</div>';
-  return html;
+  try {
+      // Загружаем файл (предполагается, что data.json лежит рядом с index.html)
+      const response = await fetch('server/images.json');
+      
+      if (!response.ok) {
+          throw new Error(`Ошибка HTTP: ${response.status}`);
+      }
+      
+      // Парсим JSON
+      const data = await response.json();
+
+      let html = '<div class="records-list">';
+
+      data.forEach(char => {
+        html += `
+          <div class="record-item" data-id="${char.id}">
+            <div class="record-info">
+              <span class="record-title">${char.id}</span>
+            </div>
+            <div class="record-actions">
+              <button class="icon-btn" data-action="comments" data-id="${char.id}" data-name="${char.name}" title="Комментарии">
+                <svg viewBox="0 0 24 24" width="20" height="20">
+                  <path d="M21 15h-7.5l-2.5 3-2.5-3h-5.5c-1.1 0-2-.9-2-2v-10c0-1.1.9-2 2-2h18c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2z"/>
+                </svg>
+              </button>
+              <button class="icon-btn" data-action="edit-character" data-id="${char.id}" title="Редактировать">
+                <svg viewBox="0 0 24 24" width="20" height="20">
+                  <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                </svg>
+              </button>
+              <button class="icon-btn" data-action="delete" data-id="${char.id}" data-type="character" title="Удалить">
+                <svg viewBox="0 0 24 24" width="20" height="20">
+                  <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        `;
+      });
+      
+      html += '</div>';
+      outputDiv.innerHTML = html;
+      
+  } catch (error) {
+      // Показываем ошибку, если файл не найден или JSON битый
+      outputDiv.innerHTML = `<p class="error">Не удалось загрузить data.json: ${error.message}</p>`;
+  }
 }
 
-function generateCharactersList() {
-  let html = '<div class="records-list">';
+async function generateTeamsList(modalBody) {
+  const outputDiv = modalBody;
   
-  mockCharacters.forEach(char => {
-    html += `
-      <div class="record-item" data-id="${char.id}">
-        <div class="record-info">
-          <span class="record-title">${char.name}</span>
-        </div>
-        <div class="record-actions">
-          <button class="icon-btn" data-action="comments" data-id="${char.id}" data-name="${char.name}" title="Комментарии">
-            <svg viewBox="0 0 24 24" width="20" height="20">
-              <path d="M21 15h-7.5l-2.5 3-2.5-3h-5.5c-1.1 0-2-.9-2-2v-10c0-1.1.9-2 2-2h18c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2z"/>
-            </svg>
-          </button>
-          <button class="icon-btn" data-action="edit-character" data-id="${char.id}" title="Редактировать">
-            <svg viewBox="0 0 24 24" width="20" height="20">
-              <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
-            </svg>
-          </button>
-          <button class="icon-btn" data-action="delete" data-id="${char.id}" data-type="character" title="Удалить">
-            <svg viewBox="0 0 24 24" width="20" height="20">
-              <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-    `;
-  });
-  
-  html += '</div>';
-  return html;
+  try {
+      // Загружаем файл (предполагается, что data.json лежит рядом с index.html)
+      const response = await fetch('server/teams.json');
+      
+      if (!response.ok) {
+          throw new Error(`Ошибка HTTP: ${response.status}`);
+      }
+      
+      // Парсим JSON
+      const data = await response.json();
+
+      let html = '<div class="records-list">';
+
+      data.forEach(item => {
+        html += `
+          <div class="record-item" data-id="${item.id}">
+            <div class="record-info">
+              <span class="record-title">${item.id}</span>
+            </div>
+            <div class="record-actions">
+              <button class="icon-btn" data-action="edit-news" data-id="${item.id}" title="Редактировать">
+                <svg viewBox="0 0 24 24" width="20" height="20">
+                  <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                </svg>
+              </button>
+              <button class="icon-btn" data-action="delete" data-id="${item.id}" data-type="news" title="Удалить">
+                <svg viewBox="0 0 24 24" width="20" height="20">
+                  <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        `;
+      });
+      
+      html += '</div>';
+      outputDiv.innerHTML = html;
+      
+  } catch (error) {
+      // Показываем ошибку, если файл не найден или JSON битый
+      outputDiv.innerHTML = `<p class="error">Не удалось загрузить data.json: ${error.message}</p>`;
+  }
 }
 
-function generateTeamsList() {
-  return '<div class="records-list"><p>Список отрядов</p></div>';
-}
+async function generatePlanetsList(modalBody) {
+  const outputDiv = modalBody;
+  
+  try {
+      // Загружаем файл (предполагается, что data.json лежит рядом с index.html)
+      const response = await fetch('server/planets.json');
+      
+      if (!response.ok) {
+          throw new Error(`Ошибка HTTP: ${response.status}`);
+      }
 
-function generatePlanetsList() {
-  return '<div class="records-list"><p>Список планет</p></div>';
+      // Парсим JSON
+      const data = await response.json();
+
+      let html = '<div class="records-list">';
+
+      data.forEach(item => {
+        html += `
+          <div class="record-item" data-id="${item.id}">
+            <div class="record-info">
+              <span class="record-title">${item.id}</span>
+            </div>
+            <div class="record-actions">
+              <button class="icon-btn" data-action="edit-news" data-id="${item.id}" title="Редактировать">
+                <svg viewBox="0 0 24 24" width="20" height="20">
+                  <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                </svg>
+              </button>
+              <button class="icon-btn" data-action="delete" data-id="${item.id}" data-type="news" title="Удалить">
+                <svg viewBox="0 0 24 24" width="20" height="20">
+                  <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        `;
+      });
+      
+      html += '</div>';
+      outputDiv.innerHTML = html;
+      
+  } catch (error) {
+      // Показываем ошибку, если файл не найден или JSON битый
+      outputDiv.innerHTML = `<p class="error">Не удалось загрузить data.json: ${error.message}</p>`;
+  }
 }
 
 function showCommentsModal(characterId, characterName) {

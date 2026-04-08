@@ -2,6 +2,7 @@
 
     $data = [
         "id" => $_POST["id_team"] ,
+        "name" => $_POST["name_team"] ,
         "images" =>[
             filter_var($_POST["team_image1"] , FILTER_VALIDATE_URL) ,
             filter_var($_POST["team_image2"] , FILTER_VALIDATE_URL) ,
