@@ -1,5 +1,10 @@
+// через set? добавить обновление параметра в ссылке 
+
+
+
 // Текущий активный раздел (без суффикса)
 let currentSection = 'hertaStation';
+
 
 // Функция переключения разделов
 function switchSection(direction) {
@@ -54,10 +59,6 @@ function updateArrowsVisibility() {
     }
 }
 
-// Функция возврата в меню
-function goBackToMenu() {
-    alert('Возврат в главное меню');
-}
 
 // Функция открытия контактов
 function openContacts() {
@@ -76,11 +77,28 @@ function openSquads() { alert('Отряды'); }
 // Инициализация
 document.addEventListener('DOMContentLoaded', function () {
     // Показываем первую секцию
-    document.getElementById('hertaStationSection').style.display = 'block';
-    updateArrowsVisibility();
+    
 
-    // Кнопка - Вернуться в главное меню
-    document.querySelector('.back-button').addEventListener('click', goBackToMenu);
+    const blockToShow = getUrlParam('currentSection');
+    console.log(blockToShow);
+    if (blockToShow!=""){
+        document.getElementById(blockToShow+'Section').style.display = 'block';
+        currentSection = blockToShow;
+        const titleMap = {
+            'hertaStation': 'Космическая станция "Герта"',
+            'yariloVI': 'Ярило-VI',
+            'luofu': 'Лофу Сяньчжоу',
+            'penacony': 'Пенакония',
+            'amphoreus': 'Амфореус'
+        };
+        document.getElementById('sectionTitle').textContent = titleMap[currentSection];
+    }
+    else{
+        document.getElementById('hertaStationSection').style.display = 'block';
+        currentSection = 'hertaStation';
+    }
+    
+    updateArrowsVisibility();
 
     // Кнопка - Вернуться на предыдущую
     document.getElementById('prevButton').addEventListener('click', function () {
@@ -101,6 +119,11 @@ document.addEventListener('DOMContentLoaded', function () {
     menuItems[1].addEventListener('click', openModes);
     menuItems[2].addEventListener('click', openSquads);
 });
+
+function getUrlParam(paramName) {
+    return new URLSearchParams(window.location.search).get(paramName);
+}  
+    
 
 
 

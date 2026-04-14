@@ -47,18 +47,33 @@ function updateArrowsVisibility() {
     }
 }
 
-// Функция возврата в меню
-function goBackToMenu() {
-    alert('Возврат в главное меню');
-}
 
 // Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
+
+    const blockToShow = getUrlParam('type');
+    console.log(blockToShow);
+    if (blockToShow!=""){
+        document.getElementById(blockToShow+'Section').style.display = 'block';
+        currentSection = blockToShow;
+        document.getElementById('sectionTitle').textContent = 
+        currentSection === 'news' ? 'Новости' :
+        currentSection === 'modes' ? 'Режимы' : 'Отряды';
+    }
+    else{
+        document.getElementById('newsSection').style.display = 'block';
+        currentSection = 'news';
+    }
+
     // Назначаем обработчики событий
-    document.getElementById('backButton').onclick = goBackToMenu;
     document.getElementById('prevButton').onclick = function() { switchSection('prev'); };
     document.getElementById('nextButton').onclick = function() { switchSection('next'); };
     
     // Инициализируем видимость стрелок
     updateArrowsVisibility();
 });
+
+function getUrlParam(paramName) {
+    return new URLSearchParams(window.location.search).get(paramName);
+}  
+  

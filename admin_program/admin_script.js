@@ -3,6 +3,11 @@ let currentPage = "login";
 let currentAdminName = "Admin";
 let currentItemForDelete = null;
 
+const mockComments = [
+  { id: 1, date: '2024-03-10', author: 'User1', text: 'Комментарий 1' },
+  { id: 2, date: '2024-03-11', author: 'User2', text: 'Комментарий 2' },
+];
+
 // ========== ШАБЛОНЫ КОНТЕНТА ДЛЯ РАЗДЕЛОВ ==========
 const contentTemplates = {
   news: `
@@ -332,55 +337,53 @@ function showRecordsModal(type) {
   const modal = document.getElementById("recordsModal");
   const modalTitle = document.getElementById("modalTitle");
   const modalBody = document.getElementById("recordsModalBody");
-  
-  let title = "";
-  let content = "";
+  console.log('[MODAL] Открытие модального окна списка', { type });
   
   if (type === "news") {
-    title = "Список старых новостей";
+    console.log('[MODAL] Загрузка список новостей');
+    modalTitle.textContent = "Список старых новостей";
     generateNewsList(modalBody);
     modal.classList.remove("hidden");
     attachModalHandlers();
-    return ;
-    
+    console.log('[MODAL] Модальное окно новостей показано');
+    return;
 
   } else if (type === "characters") {
-    title = "Список персонажей";
-
-    modalTitle.textContent = title;
+    console.log('[MODAL] Загрузка список персонажей');
+    modalTitle.textContent = "Список персонажей";
     generateCharactersList(modalBody);
     modal.classList.remove("hidden");
     attachModalHandlers();
-    return ;
+    console.log('[MODAL] Модальное окно персонажей показано');
+    return;
 
   } else if (type === "teams") {
-    title = "Список отрядов";
+    console.log('[MODAL] Загрузка список отрядов');
+    modalTitle.textContent = "Список отрядов";
     generateTeamsList(modalBody);
     modal.classList.remove("hidden");
     attachModalHandlers();
-    return ;
+    console.log('[MODAL] Модальное окно отрядов показано');
+    return;
 
   } else if (type === "planets") {
-    title = "Список планет";
+    console.log('[MODAL] Загрузка список планет');
+    modalTitle.textContent = "Список планет";
     generatePlanetsList(modalBody);
     modal.classList.remove("hidden");
     attachModalHandlers();
-    return ;
+    console.log('[MODAL] Модальное окно планет показано');
+    return;
   }
-  
-  /*modalTitle.textContent = title;
-  modalBody.innerHTML = content;
-  modal.classList.remove("hidden");
-  
-  attachModalHandlers();*/
 }
 
 //список новостей
 async function generateNewsList(modalBody) {
   const outputDiv = modalBody;
+  console.log('[GENERATE] Загрузка списка новостей...');
   try {
       // Загружаем файл (предполагается, что data.json лежит рядом с index.html)
-      const response = await fetch('server/news.json');
+      const response = await fetch('server/resources/news.json');
       
       if (!response.ok) {
           throw new Error(`Ошибка HTTP: ${response.status}`);
@@ -388,6 +391,7 @@ async function generateNewsList(modalBody) {
       
       // Парсим JSON
       const data = await response.json();
+      console.log('[GENERATE] Новости загружены', { count: data.length, data });
 
       let html = '<div class="records-list">';
 
@@ -416,9 +420,11 @@ async function generateNewsList(modalBody) {
       
       html += '</div>';
       outputDiv.innerHTML = html;
+      console.log('[GENERATE] Список новостей отрисован успешно', { itemsCount: data.length });
       
   } catch (error) {
       // Показываем ошибку, если файл не найден или JSON битый
+      console.error('[GENERATE] Ошибка загрузки новостей', error);
       outputDiv.innerHTML = `<p class="error">Не удалось загрузить data.json: ${error.message}</p>`;
   }
 }
@@ -433,13 +439,18 @@ async function generateCharactersList(modalBody) {
   try {
       // Загружаем файл (предполагается, что data.json лежит рядом с index.html)
       const response = await fetch('server/images.json');
+      //E:\учеба(5 сем)\Технология разработки веб-приложений\курсовая\HSR_wiki\admin_program\server\images.json
+      console.log("Ответ сервера:", response);
       
       if (!response.ok) {
-          throw new Error(`Ошибка HTTP: ${response.status}`);
+        console.error("Ошибка при загрузке данных:", response.status, response.statusText);
+        throw new Error(`Ошибка HTTP: ${response.status}`);
+
       }
       
       // Парсим JSON
       const data = await response.json();
+      console.log("Данные из JSON:", data);
 
       let html = '<div class="records-list">';
 
@@ -468,13 +479,17 @@ async function generateCharactersList(modalBody) {
             </div>
           </div>
         `;
+
       });
       
       html += '</div>';
       outputDiv.innerHTML = html;
+      console.log("данные успешно загружены и отображены");
       
   } catch (error) {
       // Показываем ошибку, если файл не найден или JSON битый
+      console.log("Ответ сервера:", error);
+      console.error("Ошибка при загрузке данных:", error);
       outputDiv.innerHTML = `<p class="error">Не удалось загрузить data.json: ${error.message}</p>`;
   }
 }
@@ -484,7 +499,7 @@ async function generateTeamsList(modalBody) {
   
   try {
       // Загружаем файл (предполагается, что data.json лежит рядом с index.html)
-      const response = await fetch('server/teams.json');
+      const response = await fetch('server/resources/teams.json');
       
       if (!response.ok) {
           throw new Error(`Ошибка HTTP: ${response.status}`);
@@ -507,7 +522,7 @@ async function generateTeamsList(modalBody) {
                   <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
                 </svg>
               </button>
-              <button class="icon-btn" data-action="delete" data-id="${item.id}" data-type="news" title="Удалить">
+              <button class="icon-btn" data-action="delete" data-id="${item.id}" data-type="team" title="Удалить">
                 <svg viewBox="0 0 24 24" width="20" height="20">
                   <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
                 </svg>
@@ -531,7 +546,7 @@ async function generatePlanetsList(modalBody) {
   
   try {
       // Загружаем файл (предполагается, что data.json лежит рядом с index.html)
-      const response = await fetch('server/planets.json');
+      const response = await fetch('server/resources/planets.json');
       
       if (!response.ok) {
           throw new Error(`Ошибка HTTP: ${response.status}`);
@@ -554,7 +569,7 @@ async function generatePlanetsList(modalBody) {
                   <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
                 </svg>
               </button>
-              <button class="icon-btn" data-action="delete" data-id="${item.id}" data-type="news" title="Удалить">
+              <button class="icon-btn" data-action="delete" data-id="${item.id}" data-type="planet" title="Удалить">
                 <svg viewBox="0 0 24 24" width="20" height="20">
                   <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
                 </svg>
@@ -626,6 +641,7 @@ function showEditForm(type, id) {
 
 function showDeleteConfirm(item) {
   currentItemForDelete = item;
+  console.log('[DELETE] Модальное окно подтверждения открыто', item);
   document.getElementById("deleteConfirmModal").classList.remove("hidden");
 }
 
@@ -633,66 +649,72 @@ function hideAllModals() {
   document.querySelectorAll(".modal-overlay").forEach((modal) => {
     modal.classList.add("hidden");
   });
+  if (currentItemForDelete) {
+    console.log('[DELETE] Модальные окна закрыты, данные очищены', currentItemForDelete);
+  }
   currentItemForDelete = null;
 }
 
 // ========== ОБРАБОТЧИКИ ==========
 
 function attachContentHandlers(pageName) {
+  console.log('[CONTENT] Добавление обработчиков для страницы', pageName);
   const showListBtn = document.querySelector(".btn-show-list");
   if (showListBtn) {
+    console.log('[CONTENT] Кнопка показа список найдена', pageName);
     showListBtn.addEventListener("click", () => {
+      console.log('[CONTENT] Кнопка показа список нажата', pageName);
       showRecordsModal(pageName);
     });
+  } else {
+    console.warn('[CONTENT] Кнопка показа список НЕ найдена', pageName);
   }
   
   const form = document.querySelector(".admin-form");
   if (form) {
+    console.log('[CONTENT] Форма найдена', pageName);
     form.addEventListener("submit", (e) => {
+      console.log('[CONTENT] Форма отправлена', pageName);
       alert("Данные сохранены");
     });
+  } else {
+    console.warn('[CONTENT] Форма НЕ найдена', pageName);
   }
 }
 
-function attachModalHandlers() {
-  document.querySelectorAll('[data-action="edit-news"]').forEach(btn => {
-    btn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      const id = btn.dataset.id;
+function attachModalHandlers() {//обработчики для кнопок внутри модального окна со списком записей
+  const recordsModalBody = document.getElementById("recordsModalBody");
+  
+  // Используем event delegation для работы с динамическими элементами
+  recordsModalBody.addEventListener("click", (e) => {
+    const btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    
+    e.stopPropagation();
+    const action = btn.dataset.action;
+    const id = btn.dataset.id;
+    
+    console.log('[MODAL] Кнопка нажата', { action, id });
+    
+    if (action === "edit-news") {
       hideAllModals();
       showEditForm("news", id);
-    });
-  });
-  
-  document.querySelectorAll('[data-action="edit-character"]').forEach(btn => {
-    btn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      const id = btn.dataset.id;
+    } else if (action === "edit-character") {
       hideAllModals();
       showEditForm("character", id);
-    });
-  });
-  
-  document.querySelectorAll('[data-action="comments"]').forEach(btn => {
-    btn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      const id = btn.dataset.id;
+    } else if (action === "comments") {
       const name = btn.dataset.name;
       hideAllModals();
       showCommentsModal(id, name);
-    });
-  });
-  
-  document.querySelectorAll('[data-action="delete"]').forEach(btn => {
-    btn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      const id = btn.dataset.id;
+    } else if (action === "delete") {
       const type = btn.dataset.type;
+      console.log('[DELETE] Кнопка удаления нажата', { id, type, time: new Date().toLocaleTimeString() });
       showDeleteConfirm({ id, type });
-    });
+    }
   });
-  
+
   document.getElementById("closeRecordsModal").addEventListener("click", () => {
+    console.log('[MODAL] Закрытие модального окна записей');
     hideAllModals();
   });
 }
@@ -741,11 +763,14 @@ function attachEditFormHandlers(type) {
 
 // ========== ИНИЦИАЛИЗАЦИЯ ==========
 document.addEventListener("DOMContentLoaded", () => {
+  console.log('[INIT] Приложение инициализируется');
   showPage("login");
+  console.log('[INIT] Добавление обработчиков событий');
   
   document.querySelectorAll(".sidebar-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       const page = btn.dataset.page;
+      console.log('[SIDEBAR] Нажата кнопка', page);
       showPage(page);
     });
   });
@@ -754,11 +779,13 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.addEventListener("click", (e) => {
       e.preventDefault();
       const page = btn.dataset.page;
+      console.log('[NAVIGATION] Переход на', page);
       showPage(page);
     });
   });
   
   document.getElementById("exitButton").addEventListener("click", () => {
+    console.log('[EXIT] Выход из системы');
     showPage("login");
   });
   
@@ -767,11 +794,14 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const login = document.getElementById("login").value;
     const password = document.getElementById("password").value;
+    console.log('[LOGIN] Попытка входа', { login, passwordLength: password.length });
     
     if (login && password.length >= 5) {
       currentAdminName = login;
+      console.log('[LOGIN] Успешный вход', { admin: login });
       showPage("welcome");
     } else {
+      console.warn('[LOGIN] Ошибка: пароль короче 5 символов');
       alert("Пароль должен быть не менее 5 символов");
     }
   });
@@ -782,12 +812,43 @@ document.addEventListener("DOMContentLoaded", () => {
     passwordInput.type = type;
   });
   
-  document.getElementById("confirmDeleteBtn").addEventListener("click", () => {
-    alert("Элемент удален (имитация)");
+  console.log('[INIT] Инициализация завершена успешно');
+  
+  document.getElementById("confirmDeleteBtn").addEventListener("click", async () => {
+    if (!currentItemForDelete) return;
+    const { id, type } = currentItemForDelete;
+    console.log('[DELETE] Подтверждение удаления нажато', { id, type, time: new Date().toLocaleTimeString() });
+    let url = '';
+    if (type === 'news') url = 'server/news_save.php';
+    else if (type === 'character') url = 'server/cards_save.php';
+    else if (type === 'team') url = 'server/teams_save.php';
+    else if (type === 'planet') url = 'server/planets_save.php';
+    console.log('[DELETE] Отправка запроса на удаление', { url, id, type });
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `action=delete&id=${encodeURIComponent(id)}`
+      });
+      console.log('[DELETE] Ответ от сервера получен', { status: response.status });
+      const result = await response.json();
+      console.log('[DELETE] JSON ответ разобран', result);
+      if (result.success) {
+        console.log('[DELETE] Элемент успешно удален', { id, type });
+        alert('Элемент удален');
+      } else {
+        console.warn('[DELETE] Ошибка при удалении', { id, type, message: result.message });
+        alert('Ошибка удаления: ' + (result.message || 'Неизвестная ошибка'));
+      }
+    } catch (error) {
+      console.error('[DELETE] Ошибка выполнения запроса', { id, type, error: error.message });
+      alert('Ошибка: ' + error.message);
+    }
     hideAllModals();
   });
   
   document.getElementById("cancelDeleteBtn").addEventListener("click", () => {
+    console.log('[DELETE] Удаление отменено', currentItemForDelete);
     hideAllModals();
   });
   

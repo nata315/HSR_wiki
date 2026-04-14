@@ -18,11 +18,11 @@
                 <img id = "logo" src="https://static.wikia.nocookie.net/honkai-star-rail/images/e/e6/Site-logo.png/revision/latest?cb=20230218221344&path-prefix=ru" alt="Логотип">
                 <button class="menu-button" id="Planet" >Планеты</button>
                     <div class="dropdown-menu" id="dropdownPlanet">
-                    <button class="menu-item" id="planet1"><a href="planet.html">станция "Герта"</a> </button><!--проверка перехода на стр-->
-                    <button class="menu-item" id="planet2"><a href="">Ярило-VI</a></button>
-                    <button class="menu-item" id="planet3"><a href="">Лофу Сяньчжоу</a></button>
-                    <button class="menu-item" id="planet4"><a href="">Пенакония</a></button>
-                    <button class="menu-item" id="planet5"><a href="">Амфореус</a></button>
+                    <a href="planet/planet.html?currentSection=hertaStation" class="menu-item" id="planet1" >станция "Герта"</a> <!--проверка перехода на стр-->
+                    <a href="planet/planet.html?currentSection=yariloVI" class="menu-item" id="planet2">Ярило-VI</a>
+                    <a href="planet/planet.html?currentSection=luofu" class="menu-item" id="planet3">Лофу Сяньчжоу</a>
+                    <a href="planet/planet.html?currentSection=penacony" class="menu-item" id="planet4">Пенакония</a>
+                    <a href="planet/planet.html?currentSection=amphoreus" class="menu-item" id="planet5" >Амфореус</a>
                     </div>
             </div>
 
@@ -36,10 +36,10 @@
                 
                 <button class="menu-button" id="menuButton">☰</button>
                 <div class="dropdown-menu" id="dropdownMenu">
-                    <button class="menu-item" id="news"><a href="menu/menu.html">Новости</a></button>
-                    <button class="menu-item" id="modes"><a href="menu/menu.html">Режимы</a></button>
-                    <button class="menu-item" id="party"><a href="menu/menu.html">Отряды</a></button>
-                    <button class="menu-item" id="shop"><a href="protatypeShop/shop.html">Магазин</a></button>
+                    <a href="menu/menu.html?type=news" class="menu-item" id="news">Новости</a>
+                    <a href="menu/menu.html?type=modes" class="menu-item" id="modes">Режимы</a>
+                    <a href="menu/menu.html?type=squads" class="menu-item" id="party">Отряды</a>
+                    <a href="protatypeShop/shop.html" class="menu-item" id="shop">Магазин</a>
                 </div>
             </div>
         </header>  

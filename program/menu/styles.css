@@ -1,35 +1,64 @@
 /* Базовые стили для видимости */
 body { 
+    background: #FDFDF5;
     margin: 0; 
-    font-family: Arial, sans-serif; 
+    font-family: comic sans ms;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
 }
 
 .header { 
-    background: #2c3e50; 
-    color: white; 
-    padding: 15px; 
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
+    background: #13213B;
+    color: #F1FEA2;
+    padding: 15px;
+    position: relative;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
 
 .header-container { 
     display: flex; 
     justify-content: space-between; 
     align-items: center; 
+    position: relative;
+    min-height: 40px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    position: relative;
+    flex: 0 0 auto;
+    z-index: 2;
+}
+
+.header-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 1;
+    width: auto;
 }
 
 .back-button, .nav-arrow { 
-    background: #3498db; 
-    color: white; 
+    background: #5E93C5;
+    color: #F1FEA2;
     border: none; 
     padding: 10px 15px; 
     cursor: pointer; 
     border-radius: 5px;
+    font-family: comic sans ms;
+    font-size: 16px;
+}
+
+#logo {
+    height: 40px;
+    width: auto;
+    margin-right: 10px;
 }
 
 /* Контейнер для заголовка и стрелок */
@@ -42,9 +71,13 @@ body {
 }
 
 .section-title {
-    margin: 0;
     text-align: center;
-    min-width: 120px;
+    margin: 0 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px;
+    min-width: 150px;
 }
 
 .main-content {
@@ -126,20 +159,76 @@ body {
     flex: 1;
 }
 
+/* ====================================== */
+/* Хз можно и нейронный цвет оставить, но на всякий заменила по своему вкусу хд*/
+/* ====================================== */
+
 .squad-title {
     margin-top: 0;
     margin-bottom: 15px;
-    color: #2c3e50;
+    color: #35497a; /*#2c3e50;*/
+}
+.news-title{
+    /*margin-top: 0;*/
+    margin-bottom: 15px;
+    color: #35497a;
+    margin: 10px 0;
 }
 
-.squad-description {
+.mode-title{
+    /*margin-top: 0;*/
+    margin-bottom: 15px;
+    color: #35497a;
+    margin: 10px 0;
+}
+
+.publish-date{
+    color: #5068a2;
+    margin: 10px 0;
+}
+
+/* ====================================== */
+/* Думаю это можно объединить, чтобы не разписывать каждый раздел!!!*/
+/* ====================================== */
+
+.news-description{
+    text-align: justify; 
+    max-width: 700px;
+    margin: 0 auto;
     line-height: 1.6;
-    color: #34495e;
 }
 
-.squad-description p {
-    margin-bottom: 10px;
+.news-description p{
+    color: #3D5690;
+    margin: 10px 0;
 }
+
+.mode-description{
+    text-align: justify; 
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.mode-description p{
+    color: #3D5690;
+    margin: 10px 0;
+}
+
+.squad-description{
+    text-align: justify; 
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.squad-description p{
+    color: #3D5690;
+    margin: 10px 0;
+}
+
+/* ====================================== */
+/* ====================================== */
 
 /* Стили для скроллбара */
 .squads-scroll-container::-webkit-scrollbar {
@@ -152,12 +241,12 @@ body {
 }
 
 .squads-scroll-container::-webkit-scrollbar-thumb {
-    background: #3498db;
+    background: #5E93C5;
     border-radius: 4px;
 }
 
 .squads-scroll-container::-webkit-scrollbar-thumb:hover {
-    background: #2980b9;
+    background: #5E93C5;
 }
 
 /* Контейнер для комментариев */
@@ -171,13 +260,13 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #2c3e50;
+    color: #5E93C5;
 }
 
 /* Подвал */
 .footer {
-    background: #34495e;
-    color: white;
+    background: #13213B;
+    color: #F1FEA2;
     padding: 20px;
     margin-top: auto;
 }
