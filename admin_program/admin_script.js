@@ -15,7 +15,7 @@ const contentTemplates = {
       <h2>Добавление новости</h2>
       <button class="btn-show-list" data-list="news">Показать список записей</button>
     </div>
-    <form action="server/news_save.php" method="POST" class="admin-form" id="form-news">
+    <form action="server/news_save.php" method="POST" enctype="multipart/form-data" class="admin-form" id="form-news">
       <div class="form-row">
         <label for="news-id">ID:</label>
         <input name="id_news" type="text" id="news-id" placeholder="newsName_news">
@@ -34,8 +34,10 @@ const contentTemplates = {
       </div>
       <div class="form-row">
         <label for="news-photo">Фото:</label>
-        <input name="image_news" type="url" id="news-photo" placeholder="ссылка на изображение">
+        <input type="text" id="news-photo" placeholder="ссылка на изображение">
+        <input name="image_news" id="news-photo" type="file" accept="image/*" placeholder="прикрепите изображение"> 
       </div>
+
       <div class="form-actions">
         <button type="submit" class="btn-add">Добавить</button>
         <button type="reset" class="btn-clear">Очистить</button>
@@ -48,7 +50,7 @@ const contentTemplates = {
       <h2>Добавление персонажа</h2>
       <button class="btn-show-list" data-list="characters">Показать список записей</button>
     </div>
-    <form action="server/cards_save.php" method="POST" class="admin-form" id="form-character" >
+    <form action="server/cards_save.php" method="POST" enctype="multipart/form-data" class="admin-form" id="form-character" >
       <div class="form-row">
         <label for="char-id">ID:</label>
         <input name="id_card" type="text" id="char-id" placeholder="charterName_card">
@@ -63,7 +65,9 @@ const contentTemplates = {
       </div>
       <div class="form-row">
         <label for="char-photo">Фото:</label>
-        <input name="image_card" type="url" id="char-photo" placeholder="ссылка на изображение">
+        <input type="text" id="char-photo" placeholder="ссылка на изображение">
+        <input name="image_card" id="char-photo" type="file" accept="image/*" required> 
+ 
       </div>
       <div class="form-actions">
         <button type="submit" class="btn-add">Добавить</button>
@@ -77,7 +81,7 @@ const contentTemplates = {
       <h2>Добавление отряда</h2>
       <button class="btn-show-list" data-list="teams">Показать список записей</button>
     </div>
-    <form action="server/teams_save.php" method="POST" class="admin-form" id="form-team">
+    <form action="server/teams_save.php" method="POST" enctype="multipart/form-data" class="admin-form" id="form-team">
       <div class="form-row">
         <label for="team-id">ID:</label>
         <input name="id_team" type="text" id="team-id" placeholder="teamName_id" >
@@ -89,19 +93,23 @@ const contentTemplates = {
       <div class="photo-grid">
         <div class="form-row">
           <label for="team-photo1">Фото 1:</label>
-          <input name="team_image1" type="url" id="team-photo1" placeholder="ссылка на изображение">
+          <input type="text" id="team-photo1" placeholder="ссылка на изображение">
+          <input name="team_image1" id="char-photo" type="file" accept="image/*"> 
         </div>
         <div class="form-row">
           <label for="team-photo2">Фото 2:</label>
-          <input  name="team_image2" type="url" id="team-photo2" placeholder="ссылка на изображение">
+          <input type="text" id="team-photo2" placeholder="ссылка на изображение">
+          <input name="team_image2" id="char-photo" type="file" accept="image/*"> 
         </div>
         <div class="form-row">
           <label for="team-photo3">Фото 3:</label>
-          <input name="team_image3" type="url" id="team-photo3" placeholder="ссылка на изображение">
+          <input type="text" id="team-photo3" placeholder="ссылка на изображение">
+          <input name="team_image3" id="char-photo" type="file" accept="image/*"> 
         </div>
         <div class="form-row">
           <label for="team-photo4">Фото 4:</label>
-          <input name="team_image4" type="url" id="team-photo4" placeholder="ссылка на изображение">
+          <input type="text" id="team-photo4" placeholder="ссылка на изображение">
+          <input name="team_image4" id="char-photo" type="file" accept="image/*"> 
         </div>
       </div>
       <div class="form-row">
@@ -120,7 +128,7 @@ const contentTemplates = {
       <h2>Добавление планеты</h2>
       <button class="btn-show-list" data-list="planets">Показать список записей</button>
     </div>
-    <form action="server/planets_save.php" method="POST" class="admin-form" id="form-planet">
+    <form action="server/planets_save.php" method="POST" enctype="multipart/form-data" class="admin-form" id="form-planet">
       <div class="form-row">
         <label for="planet-id">ID:</label>
         <input name="planet_id" type="text" id="planet-id" placeholder="planetName_id">
@@ -131,7 +139,8 @@ const contentTemplates = {
       </div>
       <div class="form-row">
         <label for="planet-photo">Фото:</label>
-        <input name="planet_image" type="url" id="planet-photo" placeholder="ссылка на изображение" >
+        <input type="text" id="planet-photo" placeholder="ссылка на изображение" >
+        <input name="planet_image" id="planet-photo" type="file" accept="image/*"> 
       </div>
       <div class="form-row">
         <label for="planet-desc">Описание:</label>
@@ -439,6 +448,7 @@ async function generateCharactersList(modalBody) {
   try {
       // Загружаем файл (предполагается, что data.json лежит рядом с index.html)
       const response = await fetch('server/images.json');
+      //проверка загрузки файла 
       //E:\учеба(5 сем)\Технология разработки веб-приложений\курсовая\HSR_wiki\admin_program\server\images.json
       console.log("Ответ сервера:", response);
       
@@ -674,8 +684,9 @@ function attachContentHandlers(pageName) {
   if (form) {
     console.log('[CONTENT] Форма найдена', pageName);
     form.addEventListener("submit", (e) => {
-      console.log('[CONTENT] Форма отправлена', pageName);
-      alert("Данные сохранены");
+      // Не блокируем стандартную отправку - позволяем форме отправиться на сервер
+      console.log('[CONTENT] Форма отправляется на сервер', pageName);
+      // Форма отправится с методом POST и action, указанными в HTML
     });
   } else {
     console.warn('[CONTENT] Форма НЕ найдена', pageName);

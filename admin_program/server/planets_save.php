@@ -12,6 +12,14 @@
         $existingData = [];
     }
 
+    // Проверяем, нет ли уже планеты с таким же id
+    foreach ($existingData as $item) {
+        if ($item['id'] === $_POST["planet_id"]) {
+            echo "error: Планета с ID '" . htmlspecialchars($_POST["planet_id"]) . "' уже существует";
+            exit;
+        }
+    }
+
     $existingData[] = $data;
     file_put_contents($fileName, json_encode($existingData, JSON_PRETTY_PRINT ));
     exit;

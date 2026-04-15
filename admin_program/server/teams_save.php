@@ -19,6 +19,15 @@
         $existingData = [];
     }
 
+    // Проверяем, нет ли уже отряда с таким же id
+    foreach ($existingData as $item) {
+        if ($item['id'] === $_POST["id_team"]) {
+            echo "error: Отряд с ID '" . htmlspecialchars($_POST["id_team"]) . "' уже существует";
+            exit;
+        }
+    }
+
+    $existingData[] = $data;
     file_put_contents($fileName, json_encode($existingData, JSON_PRETTY_PRINT | JSON_UNESCAPE_UNICODE));
     exit;
 

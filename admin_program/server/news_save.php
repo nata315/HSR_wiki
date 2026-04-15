@@ -22,6 +22,14 @@ if (file_exists($fileName)) {
     $existingData = [];
 }
 
+// Проверяем, нет ли уже новости с таким же id
+foreach ($existingData as $item) {
+    if ($item['id'] === $_POST["id_news"]) {
+        echo "error: Новость с ID '" . htmlspecialchars($_POST["id_news"]) . "' уже существует";
+        exit;
+    }
+}
+
 // Добавляем новые данные в массив
 $existingData[] = $data;
 
