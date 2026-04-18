@@ -5,6 +5,44 @@
 // Текущий активный раздел (без суффикса)
 let currentSection = 'hertaStation';
 
+// Переменные для таймера
+let menuTimer = null;
+
+// Функция для закрытия основного бокового меню
+function closeMenu() {
+    const menu = document.getElementById('dropdownMenu');
+    menu.classList.remove('show');
+    if (menuTimer) {
+        clearTimeout(menuTimer);
+        menuTimer = null;
+    }
+}
+
+// Функция для запуска таймера, что отвечает за закрытие основного бокового меню (таймер на три секунды)
+function startMenuCloseTimer() {
+    if (menuTimer) {
+        clearTimeout(menuTimer);
+    }
+    menuTimer = setTimeout(() => {
+        closeMenu();
+    }, 3000);
+}
+
+// Функция для открытия/закрытия главного меню
+function toggleMenu() {
+    const menu = document.getElementById('dropdownMenu');
+    const isOpen = menu.classList.contains('show');
+    
+    if (isOpen) {
+        // Если меню открыто, то оно закрывается
+        closeMenu();
+    } else {
+        // Иначе если меню закрыто - открываем
+        menu.classList.add('show');
+        // Запуск таймера на закрытие
+        startMenuCloseTimer();
+    }
+}
 
 // Функция переключения разделов
 function switchSection(direction) {
@@ -65,20 +103,15 @@ function openContacts() {
     alert('Контакты: example@email.com');
 }
 
-// Функция выпадающего меню
-function toggleMenu() {
-    const menu = document.getElementById('dropdownMenu');
-    menu.classList.toggle('show');
-}
+// Функции для пунктов выпадающего меню
 function openNews() { alert('Новости'); }
 function openModes() { alert('Режимы'); }
 function openSquads() { alert('Отряды'); }
+function openShop() { alert('Магазин'); }
 
 // Инициализация
 document.addEventListener('DOMContentLoaded', function () {
     // Показываем первую секцию
-    
-
     const blockToShow = getUrlParam('currentSection');
     console.log(blockToShow);
     if (blockToShow!=""){
@@ -111,19 +144,50 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Кнопка - Выпадающего меню
-    document.getElementById('menuButton').addEventListener('click', toggleMenu);
+    const menuButton = document.getElementById('menuButton');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    
+    menuButton.addEventListener('click', toggleMenu);
+    
+    // При наведении на меню и его элементы - меню не закроется
+    dropdownMenu.addEventListener('mouseenter', () => {
+        if (menuTimer) {
+            clearTimeout(menuTimer);
+            menuTimer = null;
+        }
+    });
+    
+    // Когда мышь уходит с меню или ее элементов - таймер запускается вновь, но при условии, что меню открыто
+    dropdownMenu.addEventListener('mouseleave', () => {
+        if (dropdownMenu.classList.contains('show')) {
+            startMenuCloseTimer();
+        }
+    });
 
     // Добавляем обработчики для пунктов выпадающего меню
     const menuItems = document.querySelectorAll('.menu-item');
     menuItems[0].addEventListener('click', openNews);
     menuItems[1].addEventListener('click', openModes);
     menuItems[2].addEventListener('click', openSquads);
+    menuItems[3].addEventListener('click', openShop); // Добавляем обработчик для магазина
+    
+    // Закрытие меню при клике на пункт меню
+    menuItems.forEach(item => {
+        item.addEventListener('click', () => {
+            closeMenu();
+        });
+    });
+    
+    // Закрытие меню при клике вне его области
+    document.addEventListener('click', (event) => {
+        const menuButtonEl = document.getElementById('menuButton');
+        
+        if (!dropdownMenu.contains(event.target) && !menuButtonEl.contains(event.target)) {
+            closeMenu();
+        }
+    });
 });
 
 function getUrlParam(paramName) {
     return new URLSearchParams(window.location.search).get(paramName);
-}  
-    
-
-
-
+}
