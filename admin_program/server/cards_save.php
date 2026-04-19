@@ -1,7 +1,7 @@
 <?php
 
-    $SITE_ROOT = __DIR__ . '/'; // Define the site root directory
-    $upload_dir = $SITE_ROOT."resources/";//путь к папке
+   // $SITE_ROOT = __DIR__ . '/'; // Define the site root directory
+    $upload_dir = "../admin_program/server/resources/";//путь к папке
 
     // Создаём папку resources если её нет
     if (!is_dir($upload_dir)) {
@@ -73,5 +73,13 @@
 
     //echo "<a href='../index.html'>Вернуться на главную</a>";
     
-    exit;
+    //exit;
+    //exit('<meta http-equiv="refresh" content="0; url=index.html" />');
+    if (isset($_SERVER['HTTP_REFERER'])) {
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+    } else {
+        // Если реферера нет - запасной вариант
+        header('Location: index.html');
+    }
+    exit();
 ?>

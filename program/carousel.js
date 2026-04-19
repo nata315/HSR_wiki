@@ -23,18 +23,20 @@ class PhotoCarousel {
     // Загрузка фотографий
     async loadPhotos() {
         try {
-            const response = await fetch('/admin_program/server/images.json');
+            const response = await fetch('../admin_program/server/images.json');
             this.photos = await response.json();
+            console.log("Данные в файле : "+ response);
         } catch (err) {
             this.photos = []; // Пустой массив при ошибке
+            console.log("Ошибка чтения из файла");
         }
     }
 
     // Создание HTML карточки
     createPhotoCard(photo) {
-        return `7
+        return `
             <div class="photo-card" data-id="${photo.id}">
-                <img src="${photo.src}" alt="${photo.name}" loading="lazy">
+                <img src="${photo.image}" alt="${photo.name}" loading="lazy">
                 <div class="photo-info">
                     <h3>${photo.name}</h3>
                 </div>

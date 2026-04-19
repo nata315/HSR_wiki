@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const blockToShow = getUrlParam('type');
     console.log(blockToShow);
-    if (blockToShow!=""){
+    if (blockToShow!="" || !blockToShow){
         document.getElementById(blockToShow+'Section').style.display = 'block';
         currentSection = blockToShow;
         document.getElementById('sectionTitle').textContent = 
