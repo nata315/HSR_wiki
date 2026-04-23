@@ -123,3 +123,26 @@ button:hover {
 .shopCart{
     margin: 20px;
 }
+
+
+.filter-group{
+    margin: 20px;
+}
+
+#sort{
+    background: #5e93c5; 
+    color: #f1fea2; 
+    border: none;
+    padding: 10px 15px; 
+    cursor: pointer; 
+    border-radius: 5px;
+}
+.sort{
+    display: block;
+    padding: 10px 15px;
+    background: white;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    color: #333;
+}
