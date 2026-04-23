@@ -8,7 +8,7 @@
   <body>
     <header>
         <div class="header-left">
-            <img id = "logo" src="https://static.wikia.nocookie.net/honkai-star-rail/images/e/e6/Site-logo.png/revision/latest?cb=20230218221344&path-prefix=ru" alt="Логотип">
+                <img id="logo" src="https://www.pngall.com/wp-content/uploads/17/Honkai-Star-Rail-Logo-Iconic-Design-PNG.png" alt="Логотип">
         </div>
         <div class="header-right">
             <h2>Магазин</h2>
@@ -16,17 +16,35 @@
         <div></div>
     </header>  
 
-    <div class = "shopCart">
+    <div class="shopCart">
+        <label for="category">Выбор категории:</label>
         <select id="category">
-        <option value="all">Все</option>
-        <option value="electronics">Электроника</option>
-        <option value="jewelery">Украшения</option>
-        <option value="men's clothing">Мужская одежда</option>
-        <option value="women's clothing">Женская одежда</option>
+            <option value="all">Все</option>
+            <option value="electronics">Электроника</option>
+            <option value="jewelery">Украшения</option>
+            <option value="men's clothing">Мужская одежда</option>
+            <option value="women's clothing">Женская одежда</option>
         </select>
+        
+        <div class="filter-group">
+            <label for="sort">Сортировка по цене:</label>
+            <select id="sort">
+                <option value="none">Без сортировки</option>
+                <option value="asc">По возрастанию</option>
+                <option value="desc">По убыванию</option>
+            </select>
+        </div>
     
-    <div id="products" class="grid"></div>
-    </div>
+        <div id="products" class="grid"></div>
+    </div> <!-- Закрывается shopCart -->
+    
     <script src="api.js"></script>
+    <script>
+        console.log('Страница загружена');
+        window.addEventListener('load', function() {
+            console.log('Контейнер products:', document.getElementById('products'));
+            console.log('Стили загружены:', document.styleSheets.length);
+        });
+    </script>
   </body>
 </html>
