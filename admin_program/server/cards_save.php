@@ -1,13 +1,15 @@
 <?php
+    $SITE_ROOT = __DIR__ . '/'; // Define the site root directory
+    $upload_dir = $SITE_ROOT."resources/";//путь к папке
 
-   // $SITE_ROOT = __DIR__ . '/'; // Define the site root directory
-    $upload_dir = "../admin_program/server/resources/";//путь к папке
+    $upload_path = "../admin_program/server/resources/";
 
     // Создаём папку resources если её нет
     if (!is_dir($upload_dir)) {
-        if (!mkdir($upload_dir, 0755, true)) {
+        echo "такой папки не существует".$upload_dir;
+        /*if (!mkdir($upload_dir, 0755, true)) {
             die("Ошибка: не удалось создать папку для загрузки");
-        }
+        }*/
     }
 
     //обработка ошибки
@@ -34,12 +36,12 @@
     if (!move_uploaded_file($_FILES["image_card"]['tmp_name'], $upload_filename)) {
         handle_error("Ошибка перемещения файла");
     }
-    
+    $upload_path = $upload_path. $_POST["id_card"] . '.' . $extension;
     $data = [
         "id" => $_POST["id_card"] ,
         "name" => $_POST["name_card"] ,
         "description" => $_POST["description_card"] ?? '',
-        "image" => $upload_filename
+        "image" => $upload_path
     ];
     $com = [
         "id" => $_POST["id_card"] ,

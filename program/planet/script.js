@@ -1,7 +1,3 @@
-// через set? добавить обновление параметра в ссылке 
-
-
-
 // Текущий активный раздел (без суффикса)
 let currentSection = 'hertaStation';
 
@@ -74,6 +70,18 @@ function switchSection(direction) {
         'amphoreus': 'Амфореус'
     };
     document.getElementById('sectionTitle').textContent = titleMap[currentSection];
+    // добавить функцию , которая читает заголовки на русском и айди( но из айди надо убирать что это айди только нахвание на анг )
+    // и эта функция добавляет в этом список новый раздел 
+    // скорее всего надо вынести список в глобал 
+////// и изменить чтобы данные считывали описание из json 
+    // и всю инфу брали оттуда 
+    // грубо говоря нужно изменить на то , чтобы тут был шаблон который бегает по списку из json и переключает стр 
+    // плюс не забываем что у нас внизу функция отпрделения параметров в ссылке и нужно попадать по конкретной планете 
+
+    // отсюда вылезает пробема синхронизации с главной , там тоже в менюшке должен быть корректный список планет 
+    // при заполнении списка можно опираться на названия как тут исопльзуется с Section или без , 
+    // крч разберись где какие имена и что будет проще приписать или убрать слово . 
+
 
     // Обновляем видимость стрелок
     updateArrowsVisibility();
@@ -103,11 +111,7 @@ function openContacts() {
     alert('Контакты: example@email.com');
 }
 
-// Функции для пунктов выпадающего меню
-function openNews() { alert('Новости'); }
-function openModes() { alert('Режимы'); }
-function openSquads() { alert('Отряды'); }
-function openShop() { alert('Магазин'); }
+
 
 // Инициализация
 document.addEventListener('DOMContentLoaded', function () {
@@ -164,13 +168,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Добавляем обработчики для пунктов выпадающего меню
-    const menuItems = document.querySelectorAll('.menu-item');
-    menuItems[0].addEventListener('click', openNews);
-    menuItems[1].addEventListener('click', openModes);
-    menuItems[2].addEventListener('click', openSquads);
-    menuItems[3].addEventListener('click', openShop); // Добавляем обработчик для магазина
-    
     // Закрытие меню при клике на пункт меню
     menuItems.forEach(item => {
         item.addEventListener('click', () => {

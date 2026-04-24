@@ -35,7 +35,7 @@ const contentTemplates = {
       <div class="form-row">
         <label for="news-photo">Фото:</label>
         <input type="text" id="news-photo" placeholder="ссылка на изображение">
-        <input name="image_news" id="news-photo" type="file" accept="image/*" placeholder="прикрепите изображение"> 
+        <input name="image_card" id="char-photo" type="file" accept="image/*" required> 
       </div>
 
       <div class="form-actions">
@@ -94,22 +94,22 @@ const contentTemplates = {
         <div class="form-row">
           <label for="team-photo1">Фото 1:</label>
           <input type="text" id="team-photo1" placeholder="ссылка на изображение">
-          <input name="team_image1" id="char-photo" type="file" accept="image/*"> 
+          <input name="image1_team" id="char-photo" type="file" accept="image/*"> 
         </div>
         <div class="form-row">
           <label for="team-photo2">Фото 2:</label>
           <input type="text" id="team-photo2" placeholder="ссылка на изображение">
-          <input name="team_image2" id="char-photo" type="file" accept="image/*"> 
+          <input name="image2_team" id="char-photo" type="file" accept="image/*"> 
         </div>
         <div class="form-row">
           <label for="team-photo3">Фото 3:</label>
           <input type="text" id="team-photo3" placeholder="ссылка на изображение">
-          <input name="team_image3" id="char-photo" type="file" accept="image/*"> 
+          <input name="image3_team" id="char-photo" type="file" accept="image/*"> 
         </div>
         <div class="form-row">
           <label for="team-photo4">Фото 4:</label>
           <input type="text" id="team-photo4" placeholder="ссылка на изображение">
-          <input name="team_image4" id="char-photo" type="file" accept="image/*"> 
+          <input name="image4_team" id="char-photo" type="file" accept="image/*"> 
         </div>
       </div>
       <div class="form-row">
@@ -527,7 +527,7 @@ async function generateTeamsList(modalBody) {
               <span class="record-title">${item.id}</span>
             </div>
             <div class="record-actions">
-              <button class="icon-btn" data-action="edit-news" data-id="${item.id}" title="Редактировать">
+              <button class="icon-btn" data-action="edit-team" data-id="${item.id}" title="Редактировать">
                 <svg viewBox="0 0 24 24" width="20" height="20">
                   <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
                 </svg>
@@ -574,7 +574,7 @@ async function generatePlanetsList(modalBody) {
               <span class="record-title">${item.id}</span>
             </div>
             <div class="record-actions">
-              <button class="icon-btn" data-action="edit-news" data-id="${item.id}" title="Редактировать">
+              <button class="icon-btn" data-action="edit-planet" data-id="${item.id}" title="Редактировать">
                 <svg viewBox="0 0 24 24" width="20" height="20">
                   <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
                 </svg>
