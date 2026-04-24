@@ -47,6 +47,7 @@
         "id" => $_POST["id_card"] ,
         "data" => []
     ];
+    //добавить проверку на существование id в комментах и изображениях
 
     $fileName1 = "images.json"; 
     $fileName2 = "comments.json";
