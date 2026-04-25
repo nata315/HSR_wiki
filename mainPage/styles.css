@@ -1,0 +1,261 @@
+/* style.css */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/*Часть body*/
+body{
+    font-family: comic sans ms ;
+    background-color: #fdfdf5;
+    color: #3d5690;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main{
+    flex: 1 0 auto;
+    width: 100%;
+}
+
+/*Оформление шапки*/
+.header{
+    background: #13213B;
+    color: #F1FEA2;
+    padding: 15px;
+    position: relative;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+.header-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    min-height: 40px; 
+}
+.header-left{
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    position: relative;
+    z-index: 2;
+}
+.header-center{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 1;
+    width: auto;
+}
+.header-right{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    z-index: 2;    
+}
+.empty-space{
+    width: 50px;
+}
+
+#logo{
+    height: 40px;
+    width: auto;
+    margin-right: 10px;
+}
+#menu{
+    right: 1%;
+}
+
+.menu-button{ 
+    background: #5e93c5; 
+    color: #f1fea2; 
+    border: none;
+    padding: 10px 15px; 
+    cursor: pointer; 
+    border-radius: 5px;
+    font-family: comic sans ms;
+    font-size: 16px;
+}
+
+/*Выпадающее меню кнопок шапки*/
+.dropdown-menu{
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background: white;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    min-width: 150px;
+    z-index: 1000;
+}
+.dropdown-menu.show{
+    display: block;
+}
+.menu-item{
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    background: white;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    color: #3d5690;
+    font-family: comic sans ms;
+    font-size: 16px;
+}
+.menu-item:hover{
+    background: #f5f5f5;
+}
+
+/* Блок поиска */
+.d1{
+    display: flex;
+    align-items: center;
+}
+.d1 form{
+    position: relative;
+    width: auto;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+.d1 input{
+    width: 200px;
+    height: 40px;
+    padding: 0 12px;
+    outline: none;
+    background: #9fbaf1;
+    color: #13213b;
+    border: none;
+    border-radius: 5px 0 0 5px;
+    font-family: comic sans ms;
+    font-size: 14px;
+}
+/*изменили текст-подсказку*/
+.d1 input::placeholder{
+    color: #13213b;
+    opacity: 0.7;
+}
+.d1 button{
+    position: static;
+    width: 42px;
+    height: 40px;
+    border: none;
+    background: #5e93c5;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    color: #f1fea2;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.d1 button:hover{
+    background: #4a7aaa;
+}
+
+/* Чтобы текст центрировался вместе с блоком */
+.section-title{
+    text-align: center;
+    margin: 0 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px;
+    min-width: 150px;
+}
+/* Основной блок текста-введение*/
+.Main-section{
+    padding: 20px;
+    max-width: 90%; 
+    margin: 0 auto; 
+    text-align: center; 
+}
+.main-description{
+    text-align: justify; 
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+.main-description p{
+    color: #3D5690;
+    margin: 10px 0;    
+}
+
+/* Карточка с описанием персонажа */
+.windowCard{
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background: white;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    min-width: 150px;
+    z-index: 1000;
+}
+.windowCard.show{
+    display: block;
+}
+
+/*Основная часть страницы со списком*/
+h2{
+    margin-top: 2%;
+    text-align:center;
+    color: #3d5690;
+}
+p{
+    text-align: justify;
+    color: #3d5690;
+    line-height: 1.6;    
+    /*margin: 3%;
+    margin-top: 2%;  */
+}
+/* Вроде лишнее
+form{
+    position: relative;
+    width: 300px;
+    margin: 0 auto;
+}*/
+
+/*Офомление подвала*/
+footer{        
+    background-color: #13213b;
+    color: #f1fea2;
+    padding: 20px;
+    text-align: center;
+    margin: 0;
+    margin-top:5%;             
+}
+
+
+/*
+/* Адаптивность 
+@media (max-width: 768px){
+    .photo-card {
+        flex: 0 0 calc(50% - 10px); /* 2 карточки на мобильных 
+    }
+    
+    .carousel-track-container {
+        margin: 0 40px;
+    }
+}
+
+@media (max-width: 480px){
+    .photo-card {
+        flex: 0 0 calc(100% - 10px); /* 1 карточка на маленьких экранах 
+    }
+    
+    .carousel-track-container {
+        margin: 0 30px;
+    }
+}*/
