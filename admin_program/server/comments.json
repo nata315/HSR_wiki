@@ -1,0 +1,57 @@
+[
+  {
+    "id": "Ashveil_card",
+    "data": [
+      { "username": "Trailblazer", "text": "Классный дизайн персонажа!", "date": "2026-04-10T12:00:00Z" },
+      { "username": "StarLord", "text": "Один из моих любимых героев", "date": "2026-04-15T08:30:00Z" }
+    ]
+  },
+  {
+    "id": "Sparxie_card",
+    "data": [
+      { "username": "CosmoExplorer", "text": "Интересная механика!", "date": "2026-04-12T14:20:00Z" }
+    ]
+  },
+  {
+    "id": "YaoGuang_card",
+    "data": [
+      { "username": "HonkaiFan", "text": "Очень полезная информация", "date": "2026-04-14T10:00:00Z" },
+      { "username": "SilverWolf", "text": "Спасибо за описание", "date": "2026-04-18T16:45:00Z" },
+      { "username": "Trailblazer", "text": "Помогло для прокачки", "date": "2026-04-20T09:15:00Z" }
+    ]
+  },
+  {
+    "id": "Dahlia_card",
+    "data": [
+      { "username": "StarLord", "text": "Красивый визуал", "date": "2026-04-11T11:30:00Z" }
+    ]
+  },
+  {
+    "id": "Evanesscia_card",
+    "data": [
+      { "username": "CosmoExplorer", "text": "Лучший персонаж!", "date": "2026-04-13T15:00:00Z" },
+      { "username": "HonkaiFan", "text": "Мощный билд", "date": "2026-04-19T12:30:00Z" }
+    ]
+  },
+  {
+    "id": "MortenaxBlade_card",
+    "data": [
+      { "username": "SilverWolf", "text": "Сильный воин", "date": "2026-04-16T13:00:00Z" }
+    ]
+  },
+  {
+    "id": "Cyrene_card",
+    "data": [
+      { "username": "Trailblazer", "text": "Интересная история", "date": "2026-04-17T10:45:00Z" },
+      { "username": "StarLord", "text": "Хорошая прокачка", "date": "2026-04-21T14:20:00Z" }
+    ]
+  },
+  {
+    "id": "DanHengPermansorTerrae_card",
+    "data": [
+      { "username": "HonkaiFan", "text": "Легендарный персонаж", "date": "2026-04-14T09:00:00Z" },
+      { "username": "CosmoExplorer", "text": "Топовый дамагер", "date": "2026-04-22T11:30:00Z" },
+      { "username": "SilverWolf", "text": "Мой основной герой", "date": "2026-04-23T08:45:00Z" }
+    ]
+  }
+]
