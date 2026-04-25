@@ -64,7 +64,7 @@
     
     // Проверяем, нет ли уже записи с таким же id
     foreach ($existingData1 as $item) {
-        if ($item['id'] === $_POST["id_card"]) {
+        if ($item["id"] === $_POST["id_card"]) {
             handle_error("Персонаж с ID '" . htmlspecialchars($_POST["id_card"]) . "' уже существует в базе");
         }
     }
