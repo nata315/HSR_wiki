@@ -1,384 +1,276 @@
-//добавить метод хранения комментариев ? общий для всех персов
-//сократить первосов
-//метод для открытия карточки
-
-
 class PhotoCarousel {
-    constructor() {
-        this.carouselTrack = document.querySelector('.carousel-track');
-        this.carouselNav = document.querySelector('.carousel-nav');
-        this.prevBtn = document.querySelector('.carousel-btn-prev');
-        this.nextBtn = document.querySelector('.carousel-btn-next');
-        
-        this.currentIndex = 0;
-        this.cardsPerView = this.getCardsPerView();
-        this.totalCards = 0;
-        
-        this.photos = [
-             {
-                id: 1,
-                src: 'https://static.wikia.nocookie.net/honkai-star-rail/images/b/b0/Персонаж_Темень_Сплэш-арт.png/revision/latest/scale-to-width-down/1000?cb=20250912143857&path-prefix=ru',
-                title: 'Темень',
-                //description: 
-                //ссылка на файл с комментариями 
+  constructor() {
+    // Основные DOM-элементы
+    this.carouselTrack = document.querySelector(".carousel-track");
+    this.prevBtn = document.querySelector(".carousel-btn-prev");
+    this.nextBtn = document.querySelector(".carousel-btn-next");
 
-            },
-            {
-                id: 2,
-                src: 'https://static.wikia.nocookie.net/honkai-star-rail/images/4/4e/Персонаж_Кирена_Сплэш-арт.png/revision/latest/scale-to-width-down/1000?cb=20250911055101&path-prefix=ru',
-                title: 'Кирена'
-            },
-            {
-                id: 3,
-                src: 'https://static.wikia.nocookie.net/honkai-star-rail/images/1/19/Персонаж_Дань_Хэн_Освободитель_Пустошей_Сплэш-арт.png/revision/latest/scale-to-width-down/1000?cb=20250912143840&path-prefix=ru',
-                title: 'Дань Хэн: Освободитель Пустошей'
-            },
-            
-            // Персонажи с Пенаконии
-            {
-                id: 4,
-                src: 'https://static.wikia.nocookie.net/houkai-star-rail/images/2/2d/Character_Gallagher_Splash_Art.png/revision/latest/scale-to-width-down/1000?cb=20240327022011',
-                title: 'Галлахер'
-            },
+    // Состояние карусели
+    this.currentIndex = 0;
+    this.cardsPerView = this.getCardsPerView();
+    this.photos = [];
 
-            {
-                id: 5,
-                src: 'https://static.wikia.nocookie.net/houkai-star-rail/images/5/5c/Character_Misha_Splash_Art.png/revision/latest/scale-to-width-down/1000?cb=20240206022717',
-                title: 'Миша'
-            },
+    this.init();
+  }
 
-            {
-                id: 6,
-                src: 'https://static.wikia.nocookie.net/houkai-star-rail/images/9/92/Character_Robin_Splash_Art.png/revision/latest/scale-to-width-down/1000?cb=20240508021256',
-                title: 'Зарянка'
-            },
+  // Определение количества карточек по ширине экрана
+  getCardsPerView() {
+    if (window.innerWidth <= 480) return 1;
+    if (window.innerWidth <= 768) return 2;
+    return 5;
+  }
 
-            {
-                id: 7,
-                src: 'https://static.wikia.nocookie.net/houkai-star-rail/images/2/21/Character_Sunday_Splash_Art.png/revision/latest/scale-to-width-down/1000?cb=20241224161538',
-                title: 'Воскресенье'
-            },
-
-            // Персонажи, которых встретили на Пенаконии
-
-            {
-                id: 8,
-                src: 'https://static.wikia.nocookie.net/houkai-star-rail/images/7/78/Character_Acheron_Splash_Art.png/revision/latest/scale-to-width-down/1000?cb=20240327021325',
-                title: 'Ахерон'
-            },
-
-            {
-                id: 9,
-                src: 'https://static.wikia.nocookie.net/houkai-star-rail/images/a/a9/Character_Aventurine_Splash_Art.png/revision/latest/scale-to-width-down/1000?cb=20240327104723',
-                title: 'Авантюрин'
-            },
-
-            {
-                id: 10,
-                src: 'https://static.wikia.nocookie.net/houkai-star-rail/images/9/99/Character_Sparkle_Splash_Art.png/revision/latest/scale-to-width-down/1000?cb=20240327022635',
-                title: 'Искорка'
-            },
-
-            {
-                id: 11,
-                src: 'https://static.wikia.nocookie.net/houkai-star-rail/images/3/38/Character_Firefly_Splash_Art.png/revision/latest/scale-to-width-down/1000?cb=20241007220547',
-                title: 'Светлячок'
-            },
-
-            {
-                id: 12,
-                src: 'https://static.wikia.nocookie.net/houkai-star-rail/images/f/fd/Character_Black_Swan_Splash_Art.png/revision/latest/scale-to-width-down/1000?cb=20240220023547',
-                title: 'Чёрный Лебедь'
-            },
-
-            {
-                id: 13,
-                src: 'https://static.wikia.nocookie.net/houkai-star-rail/images/b/bb/Character_Boothill_Splash_Art.png/revision/latest/scale-to-width-down/1000?cb=20240624231026',
-                title: 'Бутхилл'
-            },
-             // Персонажи с Лофу
-    {
-        id: 14,
-        src: 'https://static.wikia.nocookie.net/honkai-star-rail/images/9/94/Персонаж_Фуга_Сплэш-арт.png/revision/latest/scale-to-width-down/1000?cb=20241122125952&path-prefix=ru',
-        title: 'Фуга'
-    },
-    {
-        id: 15,
-        src: 'https://static.wikia.nocookie.net/honkai-star-rail/images/4/48/Персонаж_Тинъюнь_Сплэш-арт.png/revision/latest/scale-to-width-down/1000?cb=20230213151518&path-prefix=ru',
-        title: 'Тинъюнь'
-    },
-    {
-        id: 16,
-        src: 'https://static.wikia.nocookie.net/honkai-star-rail/images/b/bb/Персонаж_Фэйсяо_Сплэш-арт.png/revision/latest/scale-to-width-down/1000?cb=20240901162449&path-prefix=ru',
-        title: 'Фэйсяо'
-    },
-    {
-        id: 17,
-        src: 'https://static.wikia.nocookie.net/honkai-star-rail/images/f/f2/Персонаж_Моцзэ_Сплэш-арт.png/revision/latest/scale-to-width-down/1000?cb=20240901162346&path-prefix=ru',
-        title: 'Моцзэ'
-    },
-    {
-        id: 18,
-        src: 'https://static.wikia.nocookie.net/honkai-star-rail/images/8/89/Персонаж_Цзяоцю_Сплэш-арт.png/revision/latest/scale-to-width-down/1000?cb=20240731163747&path-prefix=ru',
-        title: 'Цзяоцю'
-    },
-    {
-        id: 19,
-        src: 'https://static.wikia.nocookie.net/honkai-star-rail/images/4/45/Персонаж_Юньли_Сплэш-арт.png/revision/latest/scale-to-width-down/1000?cb=20240724180834&path-prefix=ru',
-        title: 'Юньли'
-    },
-    {
-        id: 20,
-        src: 'https://static.wikia.nocookie.net/honkai-star-rail/images/7/72/Персонаж_Цзинлю_Сплэш-арт.png/revision/latest/scale-to-width-down/1000?cb=20231014141101&path-prefix=ru',
-        title: 'Цзинлю'
-    },
-    {
-        id: 21,
-        src: 'https://static.wikia.nocookie.net/honkai-star-rail/images/4/43/Персонаж_Яньцин_Сплэш-арт.png/revision/latest/scale-to-width-down/1000?cb=20230213151512&path-prefix=ru',
-        title: 'Яньцин'
-    },
-    {
-        id: 22,
-        src: 'https://static.wikia.nocookie.net/honkai-star-rail/images/1/1c/Персонаж_Сушан_Сплэш-арт.png/revision/latest/scale-to-width-down/1000?cb=20230213151524&path-prefix=ru',
-        title: 'Сушан'
-    },
-    {
-        id: 23,
-        src: 'https://static.wikia.nocookie.net/honkai-star-rail/images/7/76/Персонаж_Линша_Сплэш-арт.png/revision/latest/scale-to-width-down/1000?cb=20240901162143&path-prefix=ru',
-        title: 'Линша'
-    },
-    {
-        id: 24,
-        src: 'https://static.wikia.nocookie.net/honkai-star-rail/images/c/c2/Персонаж_Цзин_Юань_Сплэш-арт.png/revision/latest/scale-to-width-down/1000?cb=20230213151631&path-prefix=ru',
-        title: 'Цзин Юань'
-    },
-    {
-        id: 25,
-        src: 'https://static.wikia.nocookie.net/honkai-star-rail/images/4/4b/Персонаж_Гуйнайфэнь_Сплэш-арт.png/revision/latest/scale-to-width-down/1000?cb=20231024083539&path-prefix=ru',
-        title: 'Гуйнайфэнь'
-    },
-    {
-        id: 26,
-        src: 'https://static.wikia.nocookie.net/honkai-star-rail/images/5/5e/Персонаж_Ханья_Сплэш-арт.png/revision/latest/scale-to-width-down/1000?cb=20231119043831&path-prefix=ru',
-        title: 'Ханья'
-    },
-    {
-        id: 27,
-        src: 'https://static.wikia.nocookie.net/honkai-star-rail/images/e/e4/Персонаж_Сюэи_Сплэш-арт.png/revision/latest/scale-to-width-down/1000?cb=20231229234047&path-prefix=ru',
-        title: 'Сюэи'
-    },
-    {
-        id: 28,
-        src: 'https://static.wikia.nocookie.net/honkai-star-rail/images/3/34/Персонаж_Хохо_Сплэш-арт.png/revision/latest/scale-to-width-down/1000?cb=20231119043851&path-prefix=ru',
-        title: 'Хохо'
-    },
-    {
-        id: 29,
-        src: 'https://static.wikia.nocookie.net/honkai-star-rail/images/0/0c/Персонаж_Байлу_Сплэш-арт.png/revision/latest/scale-to-width-down/1000?cb=20230213151735&path-prefix=ru',
-        title: 'Байлу'
-    },
-    {
-        id: 30,
-        src: 'https://static.wikia.nocookie.net/honkai-star-rail/images/e/e7/Персонаж_Цинцюэ_Сплэш-арт.png/revision/latest/scale-to-width-down/1000?cb=20230213151504&path-prefix=ru',
-        title: 'Цинцюэ'
-    },
-    {
-        id: 31,
-        src: 'https://static.wikia.nocookie.net/honkai-star-rail/images/3/31/Персонаж_Пожиратель_Луны_Сплэш-арт.png/revision/latest/scale-to-width-down/1000?cb=20230831142709&path-prefix=ru',
-        title: 'Дань Хэн: Пожиратель Луны'
-    },
-    {
-        id: 32,
-        src: 'https://static.wikia.nocookie.net/honkai-star-rail/images/5/5d/Персонаж_Март_7_%28Охота%29_Сплэш-арт.png/revision/latest/scale-to-width-down/1000?cb=20240724181023&path-prefix=ru',
-        title: 'Март 7'
-    },
-    {
-        id: 33,
-        src: 'https://static.wikia.nocookie.net/honkai-star-rail/images/8/82/Персонаж_Юйкун_Сплэш-арт.png/revision/latest/scale-to-width-down/1000?cb=20230528031835&path-prefix=ru',
-        title: 'Юйкун'
-    },
-    {
-        id: 34,
-        src: 'https://static.wikia.nocookie.net/honkai-star-rail/images/0/01/Персонаж_Лоча_Сплэш-арт.png/revision/latest/scale-to-width-down/1000?cb=20230213151451&path-prefix=ru',
-        title: 'Лоча'
-    },
-    {
-        id: 35,
-        src: 'https://static.wikia.nocookie.net/honkai-star-rail/images/9/9e/Персонаж_Фу_Сюань_Сплэш-арт.png/revision/latest/scale-to-width-down/1000?cb=20230831142933&path-prefix=ru',
-        title: 'Фу Сюань'
+  // Загрузка фотографий
+  async loadPhotos() {
+    try {
+      const response = await fetch("../admin_program/server/images.json");
+      this.photos = await response.json();
+      console.log("Данные в файле : " + response);
+    } catch (err) {
+      this.photos = []; // Пустой массив при ошибке
+      console.log("Ошибка чтения из файла");
     }
-        ];
-        
-        this.init();
-    }
-    
-    getCardsPerView() {
-        if (window.innerWidth <= 480) return 1;
-        if (window.innerWidth <= 768) return 2;
-        return 5;
-    }
-    
-    createPhotoCard(photo) {
-        return `
-            <div class="photo-card" onclick="${this}.createWindowCard(${photo.id})" data-id="${photo.id}">
-                <img src="${photo.src}" alt="${photo.title}" loading="lazy">
+  }
+
+  // Создание HTML карточки
+  createPhotoCard(photo) {
+    return `
+            <div class="photo-card" data-id="${photo.id}">
+                <img src="${photo.image}" alt="${photo.name}" loading="lazy" id="${photo.id}-img" class="clickable-image">
                 <div class="photo-info">
-                    <h3>${photo.title}</h3>
+                    <h3>${photo.name}</h3>
                 </div>
             </div>
         `;
+  }
+
+  // Обработчик клика по изображению
+  handleImageClick(event) {
+    this.logEvent("Клик по элементу:", event.target);
+    this.logEvent("Тег элемента:", event.target.tagName);
+    this.logEvent("Класс элемента:", event.target.className);
+
+    const image = event.target.closest("img");
+    this.logEvent("Найденное изображение:", image);
+
+    if (!image) {
+      this.logEvent("Клик не по изображению");
+      return;
     }
 
-    //создание одной карточки-окна
-    createWindowCard(card){
-        //
-        
-        //<>фото
-        return `<div class="card-character" data-id="${card.id}">
-                <img src="${card.src}" alt="${card.title}">
-                <div class="card-info">
-                    <h3>${card.title}</h3>
+    const card = image.closest(".photo-card");
+    this.logEvent("Родительская карточка:", card);
+
+    if (!card) {
+      this.logEvent("Карточка не найдена");
+      return;
+    }
+
+    const photoId = card.dataset.id;
+    this.logEvent("ID фото:", photoId);
+
+    const photo = this.photos.find((p) => String(p.id) === photoId);
+    this.logEvent("Найденное фото:", photo);
+
+    if (photo) {
+      this.logEvent("Открытие модального окна для:", photo.name);
+      this.openModal(photo);
+    } else {
+      this.logEvent("Фото не найдено в массиве");
+    }
+  }
+
+  // Централизованный логгер
+  logEvent(...args) {
+    console.log(...args);
+  }
+
+  // Создание модального окна
+  createModalWindow(photo) {
+    //let comBlock = this.openCommentModal(photo);
+    return `
+            <div class="modal-overlay" id="photo-modal">
+                <div class="modal-content">
+                    <button class="modal-close">&times;</button>
+                    <div class="modal-image">
+                        <img src="${photo.image}" alt="${photo.name}">
+                    </div>
+                    <div class="modal-info">
+                        <h2>${photo.name}</h2>
+                        <p class="modal-description">${photo.description || "Нет описания"}</p>
+                    </div>
+                    <div class="com-block">
+                        <form method="POST" action="">
+                        <div class="com-title">
+                            <div>
+                                <p>Напишите никнейм: </p>
+                                <input type="text" name="autor" id="${photo.id}-commentAutor">
+                            </div>
+                            <div>
+                                <p>Комментарий: </p>
+                                <textarea type="text" name="comment" id="${photo.id}-commentText"></textarea>
+                            </div>
+                            <button type="submit">Отправить</button>
+                        </form>
+                    </div>
+                    <div class="comments-generateBlock" id="${photo.id}-comments"></div>
                 </div>
-            </div>`;
-        //<p class="card-description">${card.description}</p>
-        // <div class="comment"> </div>
-        //style
-    }
-    
-    createIndicators() {
-        const totalSlides = Math.ceil(this.totalCards / this.cardsPerView);
-        let indicatorsHTML = '';
-        
-        for (let i = 0; i < totalSlides; i++) {
-            indicatorsHTML += `
-                <button class="carousel-indicator ${i === 0 ? 'active' : ''}" 
-                        data-slide="${i}"></button>
-            `;
+            </div>
+        `;
+  }
+
+  // Открытие модального окна
+  openModal(photo) {
+    // Удаляем старое окно, если есть
+    const existingModal = document.getElementById("photo-modal");
+    if (existingModal) existingModal.remove();
+
+    // Создаём новое окно
+    const modalHTML = this.createModalWindow(photo);
+    // Вставляем его в DOM
+    document.body.insertAdjacentHTML("beforeend", modalHTML);
+    // Загружаем комментарии
+    this.openCommentModal(
+      photo,
+      document.getElementById(`${photo.id}-comments`),
+    );
+
+    // Обработчик закрытия
+    const modal = document.getElementById("photo-modal");
+    const closeBtn = modal.querySelector(".modal-close");
+
+    closeBtn.addEventListener("click", () => this.closeModal(modal));
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) this.closeModal(modal);
+    });
+
+    // Закрытие по Escape
+    document.addEventListener(
+      "keydown",
+      (this.handleEscape = (e) => {
+        if (e.key === "Escape") {
+          this.closeModal(modal);
         }
-        
-        this.carouselNav.innerHTML = indicatorsHTML;
+      }),
+    );
+  }
+  //генерация комметнриев
+  async openCommentModal(photo, container) {
+    let html = ``;
+    const com = await this.loadComments(photo.id);
+
+    if (!com || com.length === 0) {
+      html += `<p>Комментариев нет</p>`;
+      console.log("Комментариев нет");
+    } else {
+      com.forEach((comment) => {
+        html += `<div class="one-com-block">
+          <span class="date-com">${comment.date}</span>
+          <span class="autor-com">${comment.username}</span>
+          <span class="text-com">${comment.text}</span>
+        </div>`;
+      });
     }
-    
-    updateCarousel() {
-        const cardWidth = 100 / this.cardsPerView;
-        const translateX = -this.currentIndex * cardWidth * this.cardsPerView;
-        this.carouselTrack.style.transform = `translateX(${translateX}%)`;
-        
-        // Обновляем индикаторы
-        document.querySelectorAll('.carousel-indicator').forEach((indicator, index) => {
-            indicator.classList.toggle('active', index === this.currentIndex);
-        });
-        
-        // Обновляем состояние кнопок
-        this.prevBtn.disabled = this.currentIndex === 0;
-        const maxIndex = Math.ceil(this.totalCards / this.cardsPerView) - 1;
-        this.nextBtn.disabled = this.currentIndex >= maxIndex;
+    container.innerHTML = html;
+    //return html;
+  }
+  //чтение com.json
+  async loadComments(photoId) {
+    try {
+      const response = await fetch("../admin_program/server/comments.json");
+      const allComments = await response.json();
+
+      console.log("Данные комментариев:", allComments);
+
+      // Найти объект с нужным id персонажа
+      const personComments = allComments.find((item) => item.id === photoId);
+
+      // Вернуть именно массив data этого персонажа
+      return personComments ? personComments.data : [];
+    } catch (err) {
+      console.log("Ошибка чтения комментариев из файла");
+      return [];
     }
-    
-    nextSlide() {
-        const maxIndex = Math.ceil(this.totalCards / this.cardsPerView) - 1;
-        if (this.currentIndex < maxIndex) {
-            this.currentIndex++;
-            this.updateCarousel();
-        }
+  }
+
+  // Закрытие модального окна
+  closeModal(modal) {
+    if (modal) {
+      modal.remove();
+      document.removeEventListener("keydown", this.handleEscape);
     }
-    
-    prevSlide() {
-        if (this.currentIndex > 0) {
-            this.currentIndex--;
-            this.updateCarousel();
-        }
+  }
+
+  // Обновление позиции карусели
+  updateCarousel() {
+    const movePercent = -this.currentIndex * 100;
+    this.carouselTrack.style.transform = `translateX(${movePercent}%)`;
+
+    // Блокировка кнопок по краям
+    this.prevBtn.disabled = this.currentIndex === 0;
+    this.nextBtn.disabled =
+      this.currentIndex >=
+      Math.ceil(this.photos.length / this.cardsPerView) - 1;
+  }
+
+  // Следующий слайд
+  nextSlide() {
+    const maxIndex = Math.ceil(this.photos.length / this.cardsPerView) - 1;
+    if (this.currentIndex < maxIndex) {
+      this.currentIndex++;
+      this.updateCarousel();
     }
-    
-    goToSlide(index) {
-        const maxIndex = Math.ceil(this.totalCards / this.cardsPerView) - 1;
-        if (index >= 0 && index <= maxIndex) {
-            this.currentIndex = index;
-            this.updateCarousel();
-        }
+  }
+
+  // Предыдущий слайд
+  prevSlide() {
+    if (this.currentIndex > 0) {
+      this.currentIndex--;
+      this.updateCarousel();
     }
-    
-    handleResize() {
-        const oldCardsPerView = this.cardsPerView;
-        this.cardsPerView = this.getCardsPerView();
-        
-        if (oldCardsPerView !== this.cardsPerView) {
-            this.createIndicators();
-            this.updateCarousel();
-        }
-    }
-    
-    init() {
-        // Добавляем карточки
-        this.carouselTrack.innerHTML = this.photos.map(photo => 
-            this.createPhotoCard(photo)
-        ).join('');
-        
-        this.totalCards = this.photos.length;
-        
-        // Создаем индикаторы
-        this.createIndicators();
-        
-        // Добавляем обработчики событий
-        this.nextBtn.addEventListener('click', () => this.nextSlide());
-        this.prevBtn.addEventListener('click', () => this.prevSlide());
-        
-        // Обработчики для индикаторов
-        this.carouselNav.addEventListener('click', (e) => {
-            if (e.target.classList.contains('carousel-indicator')) {
-                const slideIndex = parseInt(e.target.dataset.slide);
-                this.goToSlide(slideIndex);
-            }
-        });
-        
-        // Обработчик изменения размера окна
-        window.addEventListener('resize', () => this.handleResize());
-        
-        // Инициализируем карусель
+  }
+  // Инициализация
+  async init() {
+    await this.loadPhotos();
+
+    if (!this.photos.length) return;
+
+    // Отрисовка фото
+    this.carouselTrack.innerHTML = this.photos
+      .map((p) => this.createPhotoCard(p))
+      .join("");
+
+    // Обработчики событий
+    this.prevBtn.addEventListener("click", () => this.prevSlide());
+    this.nextBtn.addEventListener("click", () => this.nextSlide());
+
+    // Клик по изображению - используем делегирование на carouselTrack
+    this.carouselTrack.addEventListener("click", (e) => {
+      console.log("=== КЛИК В КАРУСЕЛИ ===");
+      console.log("event.target:", e.target);
+      this.handleImageClick(e);
+    });
+
+    // Адаптивность
+    window.addEventListener("resize", () => {
+      const newCardsPerView = this.getCardsPerView();
+      if (newCardsPerView !== this.cardsPerView) {
+        this.cardsPerView = newCardsPerView;
         this.updateCarousel();
-        
-        // Добавляем поддержку клавиатуры
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft') this.prevSlide();
-            if (e.key === 'ArrowRight') this.nextSlide();
-        });
-        
-        // Добавляем свайпы для мобильных устройств
-        this.addSwipeSupport();
-    }
-    
-    addSwipeSupport() {
-        let startX = 0;
-        let endX = 0;
-        
-        this.carouselTrack.addEventListener('touchstart', (e) => {
-            startX = e.touches[0].clientX;
-        });
-        
-        this.carouselTrack.addEventListener('touchend', (e) => {
-            endX = e.changedTouches[0].clientX;
-            this.handleSwipe();
-        });
-        
-        this.handleSwipe = () => {
-            const diff = startX - endX;
-            const swipeThreshold = 50;
-            
-            if (Math.abs(diff) > swipeThreshold) {
-                if (diff > 0) {
-                    this.nextSlide();
-                } else {
-                    this.prevSlide();
-                }
-            }
-        };
-    }
+      }
+    });
+
+    // Клавиши влево/вправо
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") this.prevSlide();
+      if (e.key === "ArrowRight") this.nextSlide();
+    });
+
+    this.updateCarousel();
+  }
 }
 
-// Инициализация карусели при загрузке страницы
-document.addEventListener('DOMContentLoaded', () => {
-    new PhotoCarousel();
+// Запуск
+document.addEventListener("DOMContentLoaded", () => {
+  new PhotoCarousel();
 });
-
-
-
