@@ -8,6 +8,7 @@ const mockComments = [
   { id: 2, date: '2024-03-11', author: 'User2', text: 'Комментарий 2' },
 ];
 
+
 // ========== ШАБЛОНЫ КОНТЕНТА ДЛЯ РАЗДЕЛОВ ==========
 const contentTemplates = {
   news: `
