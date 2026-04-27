@@ -3,12 +3,6 @@ let currentPage = "login";
 let currentAdminName = "Admin";
 let currentItemForDelete = null;
 
-const mockComments = [
-  { id: 1, date: '2024-03-10', author: 'User1', text: 'Комментарий 1' },
-  { id: 2, date: '2024-03-11', author: 'User2', text: 'Комментарий 2' },
-];
-
-
 // ========== ШАБЛОНЫ КОНТЕНТА ДЛЯ РАЗДЕЛОВ ==========
 const contentTemplates = {
   news: `
@@ -155,6 +149,9 @@ const contentTemplates = {
   `,
 };
 
+function generateEditModal() {
+
+}
 // ========== ШАБЛОНЫ ДЛЯ РЕДАКТИРОВАНИЯ ==========
 const editTemplates = {
   news: `
@@ -310,16 +307,16 @@ function showPage(pageName) {
     updateActiveMenu(pageName);
     userBadge.classList.remove("hidden");
     exitButton.classList.remove("hidden");
-    
+
     document.getElementById("adminNameDisplay").textContent = currentAdminName;
-    
+
     attachContentHandlers(pageName);
   } else if (pageName === "login") {
     adminContainer.classList.add("hidden");
     userBadge.classList.add("hidden");
     exitButton.classList.add("hidden");
     document.getElementById("loginPage").classList.add("active");
-    
+
     document.getElementById("login").value = "";
     document.getElementById("password").value = "";
   } else if (pageName === "welcome") {
@@ -348,7 +345,7 @@ function showRecordsModal(type) {
   const modalTitle = document.getElementById("modalTitle");
   const modalBody = document.getElementById("recordsModalBody");
   console.log('[MODAL] Открытие модального окна списка', { type });
-  
+
   if (type === "news") {
     console.log('[MODAL] Загрузка список новостей');
     modalTitle.textContent = "Список старых новостей";
@@ -392,21 +389,21 @@ async function generateNewsList(modalBody) {
   const outputDiv = modalBody;
   console.log('[GENERATE] Загрузка списка новостей...');
   try {
-      // Загружаем файл (предполагается, что data.json лежит рядом с index.html)
-      const response = await fetch('server/resources/news.json');
-      
-      if (!response.ok) {
-          throw new Error(`Ошибка HTTP: ${response.status}`);
-      }
-      
-      // Парсим JSON
-      const data = await response.json();
-      console.log('[GENERATE] Новости загружены', { count: data.length, data });
+    // Загружаем файл (предполагается, что data.json лежит рядом с index.html)
+    const response = await fetch('server/news.json');
 
-      let html = '<div class="records-list">';
+    if (!response.ok) {
+      throw new Error(`Ошибка HTTP: ${response.status}`);
+    }
 
-      data.forEach(item => {
-        html += `
+    // Парсим JSON
+    const data = await response.json();
+    console.log('[GENERATE] Новости загружены', { count: data.length, data });
+
+    let html = '<div class="records-list">';
+
+    data.forEach(item => {
+      html += `
           <div class="record-item" data-id="${item.id}">
             <div class="record-info">
               <span class="record-date">${item.date}</span>
@@ -426,47 +423,45 @@ async function generateNewsList(modalBody) {
             </div>
           </div>
         `;
-      });
-      
-      html += '</div>';
-      outputDiv.innerHTML = html;
-      console.log('[GENERATE] Список новостей отрисован успешно', { itemsCount: data.length });
-      
+    });
+
+    html += '</div>';
+    outputDiv.innerHTML = html;
+    console.log('[GENERATE] Список новостей отрисован успешно', { itemsCount: data.length });
+
   } catch (error) {
-      // Показываем ошибку, если файл не найден или JSON битый
-      console.error('[GENERATE] Ошибка загрузки новостей', error);
-      outputDiv.innerHTML = `<p class="error">Не удалось загрузить data.json: ${error.message}</p>`;
+    // Показываем ошибку, если файл не найден или JSON битый
+    console.error('[GENERATE] Ошибка загрузки новостей', error);
+    outputDiv.innerHTML = `<p class="error">Не удалось загрузить data.json: ${error.message}</p>`;
   }
 }
-//ответь смогу ли я через live server загрузить данные в json через php ?
-
 
 /// генерация списка персонажей
 //открытие и отображение списка персонажей в меню
 async function generateCharactersList(modalBody) {
   const outputDiv = modalBody;
-  
+
   try {
-      // Загружаем файл (предполагается, что data.json лежит рядом с index.html)
-      const response = await fetch('server/images.json');
-      //проверка загрузки файла 
-      //E:\учеба(5 сем)\Технология разработки веб-приложений\курсовая\HSR_wiki\admin_program\server\images.json
-      console.log("Ответ сервера:", response);
-      
-      if (!response.ok) {
-        console.error("Ошибка при загрузке данных:", response.status, response.statusText);
-        throw new Error(`Ошибка HTTP: ${response.status}`);
+    // Загружаем файл (предполагается, что data.json лежит рядом с index.html)
+    const response = await fetch('server/images.json');
+    //проверка загрузки файла 
+    //E:\учеба(5 сем)\Технология разработки веб-приложений\курсовая\HSR_wiki\admin_program\server\images.json
+    console.log("Ответ сервера:", response);
 
-      }
-      
-      // Парсим JSON
-      const data = await response.json();
-      console.log("Данные из JSON:", data);
+    if (!response.ok) {
+      console.error("Ошибка при загрузке данных:", response.status, response.statusText);
+      throw new Error(`Ошибка HTTP: ${response.status}`);
 
-      let html = '<div class="records-list">';
+    }
 
-      data.forEach(char => {
-        html += `
+    // Парсим JSON
+    const data = await response.json();
+    console.log("Данные из JSON:", data);
+
+    let html = '<div class="records-list">';
+
+    data.forEach(char => {
+      html += `
           <div class="record-item" data-id="${char.id}">
             <div class="record-info">
               <span class="record-title">${char.id}</span>
@@ -491,38 +486,38 @@ async function generateCharactersList(modalBody) {
           </div>
         `;
 
-      });
-      
-      html += '</div>';
-      outputDiv.innerHTML = html;
-      console.log("данные успешно загружены и отображены");
-      
+    });
+
+    html += '</div>';
+    outputDiv.innerHTML = html;
+    console.log("данные успешно загружены и отображены");
+
   } catch (error) {
-      // Показываем ошибку, если файл не найден или JSON битый
-      console.log("Ответ сервера:", error);
-      console.error("Ошибка при загрузке данных:", error);
-      outputDiv.innerHTML = `<p class="error">Не удалось загрузить data.json: ${error.message}</p>`;
+    // Показываем ошибку, если файл не найден или JSON битый
+    console.log("Ответ сервера:", error);
+    console.error("Ошибка при загрузке данных:", error);
+    outputDiv.innerHTML = `<p class="error">Не удалось загрузить data.json: ${error.message}</p>`;
   }
 }
 
 async function generateTeamsList(modalBody) {
   const outputDiv = modalBody;
-  
+
   try {
-      // Загружаем файл (предполагается, что data.json лежит рядом с index.html)
-      const response = await fetch('server/resources/teams.json');
-      
-      if (!response.ok) {
-          throw new Error(`Ошибка HTTP: ${response.status}`);
-      }
-      
-      // Парсим JSON
-      const data = await response.json();
+    // Загружаем файл (предполагается, что data.json лежит рядом с index.html)
+    const response = await fetch('server/teams.json');
 
-      let html = '<div class="records-list">';
+    if (!response.ok) {
+      throw new Error(`Ошибка HTTP: ${response.status}`);
+    }
 
-      data.forEach(item => {
-        html += `
+    // Парсим JSON
+    const data = await response.json();
+
+    let html = '<div class="records-list">';
+
+    data.forEach(item => {
+      html += `
           <div class="record-item" data-id="${item.id}">
             <div class="record-info">
               <span class="record-title">${item.id}</span>
@@ -541,35 +536,35 @@ async function generateTeamsList(modalBody) {
             </div>
           </div>
         `;
-      });
-      
-      html += '</div>';
-      outputDiv.innerHTML = html;
-      
+    });
+
+    html += '</div>';
+    outputDiv.innerHTML = html;
+
   } catch (error) {
-      // Показываем ошибку, если файл не найден или JSON битый
-      outputDiv.innerHTML = `<p class="error">Не удалось загрузить data.json: ${error.message}</p>`;
+    // Показываем ошибку, если файл не найден или JSON битый
+    outputDiv.innerHTML = `<p class="error">Не удалось загрузить data.json: ${error.message}</p>`;
   }
 }
 
 async function generatePlanetsList(modalBody) {
   const outputDiv = modalBody;
-  
+
   try {
-      // Загружаем файл (предполагается, что data.json лежит рядом с index.html)
-      const response = await fetch('server/resources/planets.json');
-      
-      if (!response.ok) {
-          throw new Error(`Ошибка HTTP: ${response.status}`);
-      }
+    // Загружаем файл (предполагается, что data.json лежит рядом с index.html)
+    const response = await fetch('server/planets.json');
 
-      // Парсим JSON
-      const data = await response.json();
+    if (!response.ok) {
+      throw new Error(`Ошибка HTTP: ${response.status}`);
+    }
 
-      let html = '<div class="records-list">';
+    // Парсим JSON
+    const data = await response.json();
 
-      data.forEach(item => {
-        html += `
+    let html = '<div class="records-list">';
+
+    data.forEach(item => {
+      html += `
           <div class="record-item" data-id="${item.id}">
             <div class="record-info">
               <span class="record-title">${item.id}</span>
@@ -588,65 +583,285 @@ async function generatePlanetsList(modalBody) {
             </div>
           </div>
         `;
-      });
-      
-      html += '</div>';
-      outputDiv.innerHTML = html;
-      
+    });
+
+    html += '</div>';
+    outputDiv.innerHTML = html;
+
   } catch (error) {
-      // Показываем ошибку, если файл не найден или JSON битый
-      outputDiv.innerHTML = `<p class="error">Не удалось загрузить data.json: ${error.message}</p>`;
+    // Показываем ошибку, если файл не найден или JSON битый
+    outputDiv.innerHTML = `<p class="error">Не удалось загрузить data.json: ${error.message}</p>`;
   }
 }
 
-function showCommentsModal(characterId, characterName) {
+async function showCommentsModal(characterId, characterName) {
   const modal = document.getElementById("commentsModal");
   const modalTitle = document.getElementById("commentsModalTitle");
   const modalBody = document.getElementById("commentsModalBody");
-  
+
   modalTitle.textContent = `Комментарии к персонажу: ${characterName}`;
-  
+
+  let mockComments = await loadComments(characterId);
+
   let commentsHtml = '<div class="comments-list">';
-  
-  mockComments.forEach(comment => {
-    commentsHtml += `
-      <div class="comment-item" data-id="${comment.id}">
-        <div class="comment-header">
-          <span class="comment-date">${comment.date}</span>
-          <span class="comment-author">${comment.author}</span>
+
+  if (!mockComments || mockComments.length === 0) {
+    commentsHtml += `<p>Комментариев нет</p>`;
+    console.log("Комментариев нет");
+  } else {
+    mockComments.forEach(comment => {
+      commentsHtml += `
+        <div class="comment-item" data-id="${comment.id}">
+          <div class="comment-header">
+            <span class="comment-date">${comment.date}</span>
+            <span class="comment-author">${comment.username}</span>
+          </div>
+          <div class="comment-text">${comment.text}</div>
+          <div class="comment-delete">
+            <button class="icon-btn" data-action="delete-comment" data-id="${comment.id}" title="Удалить комментарий">
+              <svg viewBox="0 0 24 24" width="20" height="20">
+                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+              </svg>
+            </button>
+          </div>
         </div>
-        <div class="comment-text">${comment.text}</div>
-        <div class="comment-delete">
-          <button class="icon-btn" data-action="delete-comment" data-id="${comment.id}" title="Удалить комментарий">
-            <svg viewBox="0 0 24 24" width="20" height="20">
-              <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-    `;
-  });
-  
+      `;
+    });
+  }
+
   commentsHtml += '</div>';
   modalBody.innerHTML = commentsHtml;
   modal.classList.remove("hidden");
-  
+
   attachCommentHandlers();
 }
+  //чтение com.json
+  async function loadComments(photoId) {
+    try {
+      const response = await fetch("server/comments.json");
+      const allComments = await response.json();
+
+      //console.log("Данные комментариев:", allComments);
+
+      // Найти объект с нужным id персонажа
+      const personComments = allComments.find((item) => item.id === photoId);
+
+      // Вернуть именно массив data этого персонажа
+      return personComments ? personComments.data : [];
+
+      console.log("Данные "+photoId+":",personComments);
+    } catch (err) {
+      console.log("Ошибка чтения комментариев из файла");
+      return [];
+    }
+  }
+
+async function loadData(photoId, path) {
+  try {
+    const response = await fetch(path);//"../admin_program/server/comments.json"
+    const allData = response.json();
+
+    //console.log("Данные:", allData);
+    // Найти объект с нужным id 
+    const personData = allData.find((item) => item.id === photoId);
+
+    // Вернуть именно массив data этого персонажа
+    return personData ? personData.data : [];
+
+    console.log("Данные " + photoId + ":", personData);
+
+  } catch (err) {
+    console.log("Ошибка чтения из файла");
+    return [];
+  }
+}
+function editModalForm(type, id) {
+  const html = ``;
+
+  if (type == "news") {
+    let dataNews = loadData(id, "server/news.json");
+    html += `
+    <div class="content-header">
+      <h2>Редактирование новости</h2>
+      <button class="btn-show-list" data-list="news">Показать список записей</button>
+    </div>
+    <form action="server/news_save.php" method="POST" enctype="multipart/form-data" class="admin-form" id="form-news">
+      <div class="form-row">
+        <label for="news-id">ID:</label>
+        <input name="id_news" type="text" id="news-id" value=${dataNews.id}>
+      </div>
+      <div class="form-row">
+        <label for="edit-news-title">Заголовок:</label>
+        <input type="text" id="edit-news-title" value=${dataNews.title}>
+      </div>
+      <div class="form-row">
+        <label for="edit-news-desc">Описание:</label>
+        <textarea id="edit-news-desc" rows="5">${dataNews.description}</textarea>
+      </div>
+      <div class="form-row">
+        <label for="edit-news-date">Дата:</label>
+        <input type="date" id="edit-news-date" value=${dataNews.date}>
+      </div>
+      <div class="form-row">
+        <label for="edit-news-photo">Фото:</label>
+        <input type="url" id="edit-news-photo" value=${dataNews.image}>
+        <a href=${dataNews.image} download target="_blank">Скачать файл в новой вкладке</a>
+        <input name="image_news" id="news-photo" type="file" accept="image/*" placeholder="прикрепите новое изображение">
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn-save">Сохранить</button>
+        <button type="button" class="btn-delete" data-delete-item>Удалить</button>
+      </div>
+    </form>
+  `;
+  } else if (type == "character") {
+    let dataChar = await loadData(id, "server/images.json");
+    html +=`<div class="content-header">
+      <h2>Редактирование персонажа</h2>
+      <button class="btn-show-list" data-list="characters">Показать список записей</button>
+    </div>
+    <form action="server/cards_save.php" method="POST" enctype="multipart/form-data" class="admin-form" id="form-character" >
+      <div class="form-row">
+        <label for="char-id">ID:</label>
+        <input name="id_card" type="text" id="char-id" value=${dataChar.id}>
+      </div>
+      <div class="form-row">
+        <label for="char-name">Имя:</label>
+        <input name="name_card" type="text" id="char-name" value=${dataChar.name}>
+      </div>
+      <div class="form-row">
+        <label for="char-desc">Описание:</label>
+        <textarea name="description_card" id="char-desc" rows="4">${dataChar.description}</textarea>
+      </div>
+      <div class="form-row">
+        <label for="char-photo">Фото:</label>
+        <input type="text" id="char-photo" value=${dataChar.image}>
+        <a href=${dataChar.image} download target="_blank">Скачать файл в новой вкладке</a>
+        <input name="image_card" id="char-photo" type="file" accept="image/*" required> 
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn-save">Сохранить</button>
+        <button type="button" class="btn-delete" data-delete-item>Удалить</button>
+      </div>
+    </form>
+  `;
+  } else if (type == "team") {
+    let dataTeam = loadData(id, "server/teams.json");
+    html +=`<div class="content-header">
+      <h2>Редактирование отряда</h2>
+      <button class="btn-show-list" data-list="teams">Показать список записей</button>
+    </div>
+    <form action="server/teams_save.php" method="POST" enctype="multipart/form-data" class="admin-form" id="form-team">
+      <div class="form-row">
+        <label for="team-id">ID:</label>
+        <input name="id_team" type="text" id="team-id" value=${dataTeam.id}>
+      </div>
+      <div class="form-row">
+        <label for="team-name">Название:</label>
+        <input name="name_team" type="text" id="team-name" value=${dataTeam.name}>
+      </div>
+      <div class="photo-grid">
+        <div class="form-row">
+          <label for="team-photo1">Фото 1:</label>
+          <input type="text" id="team-photo1" value=${dataTeam.images[0]}>
+          <input name="team_image1" id="char-photo" type="file" accept="image/*"> 
+        </div>
+        <div class="form-row">
+          <label for="team-photo2">Фото 2:</label>
+          <input type="text" id="team-photo2" value=${dataTeam.images[1]}>
+          <input name="team_image2" id="char-photo" type="file" accept="image/*"> 
+        </div>
+        <div class="form-row">
+          <label for="team-photo3">Фото 3:</label>
+          <input type="text" id="team-photo3" value=${dataTeam.images[2]}>
+          <input name="team_image3" id="char-photo" type="file" accept="image/*"> 
+        </div>
+        <div class="form-row">
+          <label for="team-photo4">Фото 4:</label>
+          <input type="text" id="team-photo4" value=${dataTeam.images[3]}>
+          <input name="team_image4" id="char-photo" type="file" accept="image/*"> 
+        </div>
+      </div>
+      <div class="form-row">
+        <label for="team-desc">Описание:</label>
+        <textarea name="description_team" id="team-desc" rows="5" >${dataTeam.description}</textarea>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn-save">Сохранить</button>
+        <button type="button" class="btn-delete" data-delete-item>Удалить</button>
+      </div>
+    </form>
+  `;
+  } else if (type == "planet") {
+    let dataPlanet = loadData(id, "server/planets.json");
+    html +=`<div class="content-header">
+      <h2>Редактирование планеты</h2>
+      <button class="btn-show-list" data-list="planets">Показать список записей</button>
+    </div>
+    <form action="server/planets_save.php" method="POST" enctype="multipart/form-data" class="admin-form" id="form-planet">
+      <div class="form-row">
+        <label for="planet-id">ID:</label>
+        <input name="planet_id" type="text" id="planet-id" value=${dataPlanet.id}>
+      </div>
+      <div class="form-row">
+        <label for="planet-name">Название:</label>
+        <input name="planet_name" type="text" id="planet-name" value=${dataPlanet.name}>
+      </div>
+      <div class="form-row">
+        <label for="planet-photo">Фото:</label>
+        <input type="text" id="planet-photo" value=${dataPlanet.image}>
+        <input name="planet_image" id="planet-photo" type="file" accept="image/*"> 
+      </div>
+      <div class="form-row">
+        <label for="planet-desc">Описание:</label>
+        <textarea name="planet_description" id="planet-desc" rows="5">${dataPlanet.description}</textarea>
+      </div>
+    <div class="content-header">
+      <h2>Добавление планеты</h2>
+      <button class="btn-show-list" data-list="planets">Показать список записей</button>
+    </div>
+    <form action="server/planets_save.php" method="POST" enctype="multipart/form-data" class="admin-form" id="form-planet">
+      <div class="form-row">
+        <label for="planet-id">ID:</label>
+        <input name="planet_id" type="text" id="planet-id" placeholder="planetName_id">
+      </div>
+      <div class="form-row">
+        <label for="planet-name">Название:</label>
+        <input name="planet_name" type="text" id="planet-name" placeholder="имя на русском">
+      </div>
+      <div class="form-row">
+        <label for="planet-photo">Фото:</label>
+        <input type="text" id="planet-photo" placeholder="ссылка на изображение" >
+        <input name="planet_image" id="planet-photo" type="file" accept="image/*"> 
+      </div>
+      <div class="form-row">
+        <label for="planet-desc">Описание:</label>
+        <textarea name="planet_description" id="planet-desc" rows="5"></textarea>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn-add">Добавить</button>
+        <button type="reset" class="btn-clear">Очистить</button>
+      </div>
+    </form>`;
+  }
+
+  return html;
+}
+
 
 function showEditForm(type, id) {
   const contentArea = document.getElementById("contentArea");
-  
+
   if (type === "news") {
-    contentArea.innerHTML = editTemplates.news;
+    contentArea.innerHTML = editModalForm(news,id);
   } else if (type === "character") {
-    contentArea.innerHTML = editTemplates.character;
+    contentArea.innerHTML = editModalForm(character,id);
   } else if (type === "team") {
-    contentArea.innerHTML = editTemplates.team;
+    contentArea.innerHTML = editModalForm(team,id);
   } else if (type === "planet") {
-    contentArea.innerHTML = editTemplates.planet;
+    contentArea.innerHTML = editModalForm(planet,id);
   }
-  
+
   attachEditFormHandlers(type);
 }
 
@@ -680,7 +895,7 @@ function attachContentHandlers(pageName) {
   } else {
     console.warn('[CONTENT] Кнопка показа список НЕ найдена', pageName);
   }
-  
+
   const form = document.querySelector(".admin-form");
   if (form) {
     console.log('[CONTENT] Форма найдена', pageName);
@@ -696,18 +911,18 @@ function attachContentHandlers(pageName) {
 
 function attachModalHandlers() {//обработчики для кнопок внутри модального окна со списком записей
   const recordsModalBody = document.getElementById("recordsModalBody");
-  
+
   // Используем event delegation для работы с динамическими элементами
   recordsModalBody.addEventListener("click", (e) => {
     const btn = e.target.closest('[data-action]');
     if (!btn) return;
-    
+
     e.stopPropagation();
     const action = btn.dataset.action;
     const id = btn.dataset.id;
-    
+
     console.log('[MODAL] Кнопка нажата', { action, id });
-    
+
     if (action === "edit-news") {
       hideAllModals();
       showEditForm("news", id);
@@ -739,11 +954,12 @@ function attachCommentHandlers() {
       showDeleteConfirm({ id, type: "comment" });
     });
   });
-  
+
   document.getElementById("closeCommentsModal").addEventListener("click", () => {
     hideAllModals();
   });
 }
+
 
 function attachEditFormHandlers(type) {
   const deleteBtn = document.querySelector('[data-delete-item]');
@@ -752,7 +968,7 @@ function attachEditFormHandlers(type) {
       showDeleteConfirm({ type, action: "delete" });
     });
   }
-  
+
   const showListBtn = document.querySelector(".btn-show-list");
   if (showListBtn) {
     showListBtn.addEventListener("click", () => {
@@ -763,7 +979,7 @@ function attachEditFormHandlers(type) {
       showRecordsModal(listType);
     });
   }
-  
+
   const form = document.querySelector(".admin-form");
   if (form) {
     form.addEventListener("submit", (e) => {
@@ -778,7 +994,7 @@ document.addEventListener("DOMContentLoaded", () => {
   console.log('[INIT] Приложение инициализируется');
   showPage("login");
   console.log('[INIT] Добавление обработчиков событий');
-  
+
   document.querySelectorAll(".sidebar-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       const page = btn.dataset.page;
@@ -786,7 +1002,7 @@ document.addEventListener("DOMContentLoaded", () => {
       showPage(page);
     });
   });
-  
+
   document.querySelectorAll("[data-page]").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       e.preventDefault();
@@ -795,19 +1011,19 @@ document.addEventListener("DOMContentLoaded", () => {
       showPage(page);
     });
   });
-  
+
   document.getElementById("exitButton").addEventListener("click", () => {
     console.log('[EXIT] Выход из системы');
     showPage("login");
   });
-  
+
   document.getElementById("loginForm").addEventListener("submit", (e) => {
     e.preventDefault();
-    
+
     const login = document.getElementById("login").value;
     const password = document.getElementById("password").value;
     console.log('[LOGIN] Попытка входа', { login, passwordLength: password.length });
-    
+
     if (login && password.length >= 5) {
       currentAdminName = login;
       console.log('[LOGIN] Успешный вход', { admin: login });
@@ -817,15 +1033,15 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Пароль должен быть не менее 5 символов");
     }
   });
-  
+
   document.getElementById("togglePassword").addEventListener("click", () => {
     const passwordInput = document.getElementById("password");
     const type = passwordInput.type === "password" ? "text" : "password";
     passwordInput.type = type;
   });
-  
+
   console.log('[INIT] Инициализация завершена успешно');
-  
+
   document.getElementById("confirmDeleteBtn").addEventListener("click", async () => {
     if (!currentItemForDelete) return;
     const { id, type } = currentItemForDelete;
@@ -858,12 +1074,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     hideAllModals();
   });
-  
+
   document.getElementById("cancelDeleteBtn").addEventListener("click", () => {
     console.log('[DELETE] Удаление отменено', currentItemForDelete);
     hideAllModals();
   });
-  
+
   document.querySelectorAll(".modal-overlay").forEach((overlay) => {
     overlay.addEventListener("click", (e) => {
       if (e.target === overlay) {
@@ -871,7 +1087,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
-  
+
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
       hideAllModals();
