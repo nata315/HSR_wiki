@@ -1,6 +1,5 @@
 // Текущая страница и данные (имитация)
 let currentPage = "login";
-let currentAdminName = "Admin";
 let currentItemForDelete = null;
 
 // ========== ШАБЛОНЫ КОНТЕНТА ДЛЯ РАЗДЕЛОВ ==========
@@ -308,7 +307,7 @@ function showPage(pageName) {
     userBadge.classList.remove("hidden");
     exitButton.classList.remove("hidden");
 
-    document.getElementById("adminNameDisplay").textContent = currentAdminName;
+    //document.getElementById("adminNameDisplay").textContent = currentAdminName;
 
     attachContentHandlers(pageName);
   } else if (pageName === "login") {
@@ -658,28 +657,28 @@ async function showCommentsModal(characterId, characterName) {
 
 async function loadData(photoId, path) {
   try {
-    const response = await fetch(path);//"../admin_program/server/comments.json"
-    const allData = response.json();
+    const response = await fetch(path);
+    const allData = await response.json();
 
-    //console.log("Данные:", allData);
-    // Найти объект с нужным id 
+    // Найти объект с нужным id (JSON - массив объектов напрямую)
     const personData = allData.find((item) => item.id === photoId);
 
-    // Вернуть именно массив data этого персонажа
-    return personData ? personData.data : [];
+    // Вернуть найденный объект напрямую
+    return personData || null;
 
     console.log("Данные " + photoId + ":", personData);
 
   } catch (err) {
-    console.log("Ошибка чтения из файла");
-    return [];
+    console.log("Ошибка чтения из файла", err);
+    return null;
   }
 }
-function editModalForm(type, id) {
-  const html = ``;
+async function editModalForm(type, id) {
+  let html = ``;
 
   if (type == "news") {
-    let dataNews = loadData(id, "server/news.json");
+    let dataNews = await loadData(id, "server/news.json");
+    if (!dataNews) return `<p class="error">Запись с ID "${id}" не найдена</p>`;
     html += `
     <div class="content-header">
       <h2>Редактирование новости</h2>
@@ -716,6 +715,7 @@ function editModalForm(type, id) {
   `;
   } else if (type == "character") {
     let dataChar = await loadData(id, "server/images.json");
+    if (!dataChar) return `<p class="error">Запись с ID "${id}" не найдена</p>`;
     html +=`<div class="content-header">
       <h2>Редактирование персонажа</h2>
       <button class="btn-show-list" data-list="characters">Показать список записей</button>
@@ -746,7 +746,8 @@ function editModalForm(type, id) {
     </form>
   `;
   } else if (type == "team") {
-    let dataTeam = loadData(id, "server/teams.json");
+    let dataTeam = await loadData(id, "server/teams.json");
+    if (!dataTeam) return `<p class="error">Запись с ID "${id}" не найдена</p>`;
     html +=`<div class="content-header">
       <h2>Редактирование отряда</h2>
       <button class="btn-show-list" data-list="teams">Показать список записей</button>
@@ -793,7 +794,8 @@ function editModalForm(type, id) {
     </form>
   `;
   } else if (type == "planet") {
-    let dataPlanet = loadData(id, "server/planets.json");
+    let dataPlanet = await loadData(id, "server/planets.json");
+    if (!dataPlanet) return `<p class="error">Запись с ID "${id}" не найдена</p>`;
     html +=`<div class="content-header">
       <h2>Редактирование планеты</h2>
       <button class="btn-show-list" data-list="planets">Показать список записей</button>
@@ -849,17 +851,17 @@ function editModalForm(type, id) {
 }
 
 
-function showEditForm(type, id) {
+async function showEditForm(type, id) {
   const contentArea = document.getElementById("contentArea");
 
   if (type === "news") {
-    contentArea.innerHTML = editModalForm(news,id);
+    contentArea.innerHTML = await editModalForm("news", id);
   } else if (type === "character") {
-    contentArea.innerHTML = editModalForm(character,id);
+    contentArea.innerHTML = await editModalForm("character", id);
   } else if (type === "team") {
-    contentArea.innerHTML = editModalForm(team,id);
+    contentArea.innerHTML = await editModalForm("team", id);
   } else if (type === "planet") {
-    contentArea.innerHTML = editModalForm(planet,id);
+    contentArea.innerHTML = await editModalForm("planet", id);
   }
 
   attachEditFormHandlers(type);
