@@ -100,7 +100,8 @@ class PhotoCarousel {
                         <p class="modal-description">${photo.description || "Нет описания"}</p>
                     </div>
                     <div class="com-block">
-                        <form method="POST" action="">
+                        <form method="POST" action="../admin_program/server/comments_save.php">
+                        <input type="hidden" name="id_card" value="${photo.id}_card">
                         <div class="com-title">
                             <div>
                                 <p>Напишите никнейм: </p>

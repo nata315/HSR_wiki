@@ -1,0 +1,17 @@
+{
+    "name": "admin_program",
+    "version": "1.0.0",
+    "description": "",
+    "main": "admin_script.js",
+    "scripts": {
+      "build": "node obfuscate.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "commonjs",
+    "devDependencies": {
+        "javascript-obfuscator": "^5.4.2",
+        "terser": "^5.46.2"
+    }
+}
