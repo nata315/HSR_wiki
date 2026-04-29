@@ -4,7 +4,7 @@
     "description": "",
     "main": "admin_script.js",
     "scripts": {
-      "build": "node obfuscate.js"
+        "build": "node obfuscate.js"
     },
     "keywords": [],
     "author": "",
